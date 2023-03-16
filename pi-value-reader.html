@@ -12,16 +12,29 @@
     </style>
 </head>
 <body>
-    <div id="loadCell" class="sensor-value"></div>
-    <div id="kerInletDucer" class="sensor-value"></div>
-    <div id="manifoldInletThermo" class="sensor-value"></div>
+    <div id="sensorContainer"></div>
     <div id="error" class="sensor-value"></div>
 
     <script>
-        const loadCellDiv = document.getElementById('loadCell');
-        const kerInletDucerDiv = document.getElementById('kerInletDucer');
-        const manifoldInletThermoDiv = document.getElementById('manifoldInletThermo');
+        const sensorContainer = document.getElementById('sensorContainer');
         const errorDiv = document.getElementById('error');
+
+        function createSensorDiv(sensorName, sensorValue, unit) {
+            const sensorDiv = document.createElement('div');
+            sensorDiv.className = 'sensor-value';
+            sensorDiv.textContent = `${sensorName}: ${sensorValue.toFixed(2)} ${unit}`;
+            return sensorDiv;
+        }
+
+        function displaySensors(sensorGroup, groupName) {
+            Object.entries(sensorGroup).forEach(([key, sensor]) => {
+                const sensorDiv = createSensorDiv(`${groupName} - ${key}`, sensor.sensorReading, sensor.unit);
+                sensorContainer.appendChild(sensorDiv);
+            });
+        }
+
+        //const piURL = 'http://ecs-sim-pi.local:9002';
+        const piURL = 'http://localhost:9002';
 
         async function fetchData() {
             try {
@@ -29,15 +42,17 @@
                 const signal = controller.signal;
                 const timeout = setTimeout(() => {
                     controller.abort();
-                }, 5000); // Timeout set to 5 seconds
+                }, 5000);
 
-                const response = await fetch('http://ecs-sim-pi.local:9002', { signal });
+                const response = await fetch(piURL, { signal });
                 clearTimeout(timeout);
                 const data = await response.json();
 
-                loadCellDiv.textContent = `Load Cell: ${data.data.loadCellSensors.loadCell.sensorReading.toFixed(2)} ${data.data.loadCellSensors.loadCell.unit}`;
-                kerInletDucerDiv.textContent = `Ker Inlet Ducer: ${data.data.pressureSensors.kerInletDucer.sensorReading.toFixed(2)} ${data.data.pressureSensors.kerInletDucer.unit}`;
-                manifoldInletThermoDiv.textContent = `Manifold Inlet Thermo: ${data.data.tempSensors.manifoldInletThermo.sensorReading.toFixed(2)} ${data.data.tempSensors.manifoldInletThermo.unit}`;
+                sensorContainer.innerHTML = '';
+
+                displaySensors(data.data.loadCellSensors, 'Load Cell Sensor');
+                displaySensors(data.data.pressureSensors, 'Pressure Sensor');
+                displaySensors(data.data.tempSensors, 'Temperature Sensor');
 
                 errorDiv.textContent = '';
             } catch (error) {
@@ -47,6 +62,7 @@
                     errorDiv.textContent = 'Error fetching data: ' + error.message;
                 }
                 console.error('Error fetching data:', error);
+                alert('error fetching data, check console');
             }
         }
 
