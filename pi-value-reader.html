@@ -18,6 +18,8 @@
     <script>
         const sensorContainer = document.getElementById('sensorContainer');
         const errorDiv = document.getElementById('error');
+        let lastUpdateTime = 0;
+        const throttleInterval = 500;
 
         function createSensorDiv(sensorName, sensorValue, unit) {
             const sensorDiv = document.createElement('div');
@@ -33,41 +35,49 @@
             });
         }
 
-        //const piURL = 'http://ecs-sim-pi.local:9002';
-        const piURL = 'http://localhost:9002';
-
-        async function fetchData() {
-            try {
-                const controller = new AbortController();
-                const signal = controller.signal;
-                const timeout = setTimeout(() => {
-                    controller.abort();
-                }, 5000);
-
-                const response = await fetch(piURL, { signal });
-                clearTimeout(timeout);
-                const data = await response.json();
-
-                sensorContainer.innerHTML = '';
-
-                displaySensors(data.data.loadCellSensors, 'Load Cell Sensor');
-                displaySensors(data.data.pressureSensors, 'Pressure Sensor');
-                displaySensors(data.data.tempSensors, 'Temperature Sensor');
-
-                errorDiv.textContent = '';
-            } catch (error) {
-                if (error.name === 'AbortError') {
-                    errorDiv.textContent = 'Data not received within the specified time. Please check the connection.';
-                } else {
-                    errorDiv.textContent = 'Error fetching data: ' + error.message;
-                }
-                console.error('Error fetching data:', error);
-                alert('error fetching data, check console');
+        function processData(data) {
+            const currentTime = new Date().getTime();
+            if (currentTime - lastUpdateTime < throttleInterval) {
+                return;
             }
+
+            sensorContainer.innerHTML = '';
+
+            displaySensors(data.data.loadCellSensors, 'Load Cell Sensor');
+            displaySensors(data.data.pressureSensors, 'Pressure Sensor');
+            displaySensors(data.data.tempSensors, 'Temperature Sensor');
+
+            lastUpdateTime = currentTime;
         }
 
-        fetchData();
-        setInterval(fetchData, 500);
+        const socket = new WebSocket('ws://ecs-sim-pi.local:9002');
+
+        socket.addEventListener('open', (event) => {
+            console.log('WebSocket connection opened:', event);
+        });
+
+        socket.addEventListener('message', (event) => {
+            console.log('WebSocket message received:', event);
+            try {
+                const data = JSON.parse(event.data);
+                processData(data);
+                errorDiv.textContent = '';
+            } catch (error) {
+                errorDiv.textContent = 'Error processing data: ' + error.message;
+                console.error('Error processing data:', error);
+            }
+        });
+
+        socket.addEventListener('close', (event) => {
+            console.log('WebSocket connection closed:', event);
+            errorDiv.textContent = 'WebSocket connection closed. Please refresh the page to reconnect.';
+        });
+
+        socket.addEventListener('error', (event) => {
+            console.log('WebSocket error:', event);
+            errorDiv.textContent = 'WebSocket error. Please check the connection.';
+            alert("websockets error, check console!");
+        });
     </script>
 </body>
 </html>
