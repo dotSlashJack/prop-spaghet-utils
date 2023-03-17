@@ -1,22 +1,46 @@
 from flask import Flask, jsonify
-from flask_cors import CORS
+import json
 import time
+from flask_sock import Sock
+
+json_path = "DUMMY_DATA.json"
 
 app = Flask(__name__)
-CORS(app)
 
-# Replace this with the path to your JSON file
-JSON_FILE = "DUMMY_DATA.json"
+sock = Sock(app)
 
-def read_json_file(file_path):
-    with open(file_path, "r") as f:
-        import json
-        return json.load(f)
+def create_app():
+    app = Flask(__name__)
+    sock.init_app(app)
 
-@app.route("/")
-def serve_json():
-    json_data = read_json_file(JSON_FILE)
-    return jsonify(json_data)
+
+def get_json():
+    json_file = open(json_path)
+    return json.dumps(json.load(json_file))
+    
+@sock.route('/')
+def ecs_static_json(ws):
+    print(ws)
+    while True:
+        #time.sleep(6) #rate limit api output
+        #print('progres')
+        #data = ws.receive()
+        #ws.send(jsonify(get_json()))
+        ws.send(get_json())
+
+"""
+@app.route('/')
+def index():
+    return "More to come, for now you can use the /ecs_sim endpoint."
+    
+@app.route('/ecs_sim')
+def ecs_sim():
+    json = get_json()
+    return jsonify(json)
+    #return "More to come, for now you can use the /ecs_sim endpoint."
+"""
 
 if __name__ == "__main__":
-    app.run(host="localhost", port=9002)
+    print(get_json())
+    create_app()
+    app.run(debug=True)

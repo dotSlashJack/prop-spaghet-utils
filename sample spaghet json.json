@@ -1,0 +1,156 @@
+{
+  "command": "DATA",
+  "currentState": "UNKNOWN",
+  "data": {
+    "loadCellSensors": {
+      "LC_01": {
+        "label": "LC_01",
+        "rawCounts": 6750765,
+        "sensorReading": 6750765,
+        "timeStamp": 1678911218834,
+        "unit": ""
+      }
+    },
+    "pressureSensors": {
+      "Chamber": {
+        "label": "Chamber",
+        "rawCounts": -1474,
+        "sensorReading": -1474,
+        "timeStamp": 1678911218834,
+        "unit": ""
+      },
+      "FuelTank": {
+        "label": "FuelTank",
+        "rawCounts": -1319,
+        "sensorReading": -1319,
+        "timeStamp": 1678911218834,
+        "unit": ""
+      },
+      "N2Press": {
+        "label": "N2Press",
+        "rawCounts": -1403,
+        "sensorReading": -1403,
+        "timeStamp": 1678911218834,
+        "unit": ""
+      },
+      "OxTank": {
+        "label": "OxTank",
+        "rawCounts": -1325,
+        "sensorReading": -1325,
+        "timeStamp": 1678911218834,
+        "unit": ""
+      },
+      "Pneumatic": {
+        "label": "Pneumatic",
+        "rawCounts": -1555,
+        "sensorReading": -1555,
+        "timeStamp": 1678911218834,
+        "unit": ""
+      },
+      "Venturi_1": {
+        "label": "Venturi_1",
+        "rawCounts": -1654,
+        "sensorReading": -1654,
+        "timeStamp": 1678911218834,
+        "unit": ""
+      },
+      "Venturi_2": {
+        "label": "Venturi_2",
+        "rawCounts": -1946,
+        "sensorReading": -1946,
+        "timeStamp": 1678911218834,
+        "unit": ""
+      }
+    },
+    "tempSensors": {
+      "TC_01": {
+        "faults": 15,
+        "label": "TC_01",
+        "rawCounts": 3.3402419090270996,
+        "sensorReading": 3.3402419090270996,
+        "timeStamp": 1678911218834,
+        "unit": ""
+      },
+      "TC_02": {
+        "faults": 15,
+        "label": "TC_02",
+        "rawCounts": 3.3402419090270996,
+        "sensorReading": 3.3402419090270996,
+        "timeStamp": 1678911218834,
+        "unit": ""
+      },
+      "TC_03": {
+        "faults": 15,
+        "label": "TC_03",
+        "rawCounts": 3.3402419090270996,
+        "sensorReading": 3.3402419090270996,
+        "timeStamp": 1678911218834,
+        "unit": ""
+      },
+      "TC_04": {
+        "faults": 15,
+        "label": "TC_04",
+        "rawCounts": 3.3402419090270996,
+        "sensorReading": 3.3402419090270996,
+        "timeStamp": 1678911218834,
+        "unit": ""
+      },
+      "boardTemp": {
+        "label": "boardTemp",
+        "rawCounts": -0.0625,
+        "sensorReading": -0.0625,
+        "timeStamp": 1678911218834,
+        "unit": ""
+      }
+    },
+    "valves": {
+      "F_Flow": {
+        "label": "F_Flow",
+        "timeStamp": 1678911218834,
+        "valveState": "CLOSED"
+      },
+      "F_Press": {
+        "label": "F_Press",
+        "timeStamp": 1678911218834,
+        "valveState": "CLOSED"
+      },
+      "F_Purge": {
+        "label": "F_Purge",
+        "timeStamp": 1678911218834,
+        "valveState": "CLOSED"
+      },
+      "F_Vent": {
+        "label": "F_Vent",
+        "timeStamp": 1678911218834,
+        "valveState": "OPEN"
+      },
+      "O_Flow": {
+        "label": "O_Flow",
+        "timeStamp": 1678911218834,
+        "valveState": "CLOSED"
+      },
+      "O_Press": {
+        "label": "O_Press",
+        "timeStamp": 1678911218834,
+        "valveState": "CLOSED"
+      },
+      "O_Purge": {
+        "label": "O_Purge",
+        "timeStamp": 1678911218834,
+        "valveState": "CLOSED"
+      },
+      "O_Vent": {
+        "label": "O_Vent",
+        "timeStamp": 1678911218834,
+        "valveState": "OPEN"
+      }
+    }
+  },
+  "engineSequence": "NONE",
+  "lastPropBoardTime": 3873973394,
+  "propBoardCount": 38062010,
+  "recordedAbort": "NONE",
+  "sequenceProgress": 0,
+  "timeStamp": 1678911218834,
+  "vehicleConfig": "horizontalTestStand"
+}
