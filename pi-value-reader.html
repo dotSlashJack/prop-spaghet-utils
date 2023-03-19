@@ -51,7 +51,14 @@
             </div>
         </div>
     </div>
-
+    <br>
+    <div class="box">
+        <div id="override-buttons" class="grid-container-overrides"></div>
+        <button id="overrideBtn" class="importantBtn" onclick="sendOverrideCommand()" disabled>SET STATES</button>
+        <p id="lastSentOverrideAt">Last Sent override at: NA</p>
+        <p>&nbsp; | &nbsp;Enable Override:</p> <input type="checkbox" id="overrideCheckbox" value="enableOverrideChecked">
+    </div>
+    <br>
     <div class="grid-container">
         <div class="grid-item">
             <div id="chart1"></div>

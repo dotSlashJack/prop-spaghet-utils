@@ -14,33 +14,33 @@
     background-color: inherit;
 }
 
-#testTypeDropdown{
+#testTypeDropdown {
     width: 200px;
     height: 40px;
     color: white;
     background-color: inherit;
 }
 
-.alarm{
+.alarm {
     color: red;
 }
 
-body{
+body {
     margin-top: 0;
     margin-bottom: 0;
     background-color: #DD9791;
     font-family: Arial, Helvetica, sans-serif;
     height: 100%;
-    max-width: 100vw; 
+    max-width: 100vw;
     overflow-x: hidden;
 }
 
-.wrapped-container{
+.wrapped-container {
     max-height: 200px;
     columns: 2;
     display: inline-block;
     vertical-align: top;
-    max-width: 100%; 
+    max-width: 100%;
     column-gap: 40px;
 }
 
@@ -49,7 +49,7 @@ body{
     text-overflow: ellipsis;
 }*/
 
-.importantBtn{
+.importantBtn {
     width: 300px;
     height: 40px;
     font-size: larger;
@@ -60,7 +60,7 @@ body{
     border: none;
 }
 
-.cautiousBtn{
+.cautiousBtn {
     width: 300px;
     height: 40px;
     font-size: larger;
@@ -71,7 +71,7 @@ body{
     border: none;
 }
 
-.box{
+.box {
     background-color: #181F2D;
     padding-left: 2%;
     padding-right: 2%;
@@ -79,7 +79,7 @@ body{
     padding-bottom: 1%;
 }
 
-p{
+p {
     color: white;
     margin: 0;
     padding: 0;
@@ -110,9 +110,28 @@ p{
     margin-right: 1%;
 }
 
-#chart{
+.grid-container-overrides {
+    display: grid;
+    background-color: inherit;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    padding: 15px;
+}
+
+.dropdown {
+    width: 100%;
+    background-color: #181F2D;
+    margin-top: 5px;
+    color: white;
+}
+
+#chart {
     background-color: black;
     max-height: 2vh;
+}
+
+.select-with-dropdown{
+    color: white;
 }
 
 /*#pneumaticSysPress{

@@ -8,6 +8,8 @@ const socket = new WebSocket('ws://ecs-sim-pi.local:9002');
 
 //where your states/batches are defined
 const stateSetJSON = "../resources/STATE_SETS.json";
+const valveNameJSON = "../resources/VALVE_NAMES.json";
+
 
 const minSafePneumaticPressure = 80.0;
 
@@ -18,6 +20,58 @@ const minSafePneumaticPressure = 80.0;
 let stateData = null;
 let batchName = "waterflow";
 
+
+//----- HANDLE OVERRIDE BUTTON JSON --//
+
+let valveNames = [];
+fetch(valveNameJSON)
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        valveNames = data[0].valves;
+
+        const overrideGrid = document.getElementById('override-buttons');
+
+        // Populate testType dropdown with options
+        //var testTypeDropdown = document.getElementById("testTypeDropdown");
+        valveNames.forEach(name => {
+            const select = document.createElement('select');
+            select.className = 'dropdown';
+            const option1 = document.createElement('option');
+            const option2 = document.createElement('option');
+
+            option1.value = 'OPEN';
+            option1.textContent = 'OPEN';
+            option2.value = 'CLOSED';
+            option2.textContent = 'CLOSED';
+
+            select.appendChild(option1);
+            select.appendChild(option2);
+            select.id = name;
+            //option1.("OPEN");
+            //option.add("CLOSED");
+            //select.add(option);
+
+            let namedSelect = document.createElement('div');
+            namedSelect.className = "select-with-dropdown";
+            namedSelect.append(name);
+            namedSelect.append(select);
+            //namedSelect.innerHTML = "<p>"+name+"</p><br>"+select.ele;
+
+            overrideGrid.appendChild(namedSelect);
+
+            //var option = document.createElement("option");
+            //option.text = testType.name;
+            //option.value = testType.name;
+            //testTypeDropdown.add(option);
+        });
+    });
+
+//createDropdownGrid();
+
+
+//----- HANDLE MENU CREATION --///
 
 fetch(stateSetJSON)
     .then(function (response) {
@@ -101,6 +155,7 @@ let pressureCheckboxValue = "pressureSensorsChecked";
 let tempCheckboxValue = "tempSensorsChecked";
 let loadCheckboxValue = "loadSensorsChecked";
 let pressureCheckbox2Value = "";
+let enableOverrideCheckboxValue = "";
 
 //see if things are checked/unchecked to update what's on the graphs
 const checkbox_1 = document.getElementById("checkbox_1");
@@ -139,6 +194,17 @@ checkbox_4.addEventListener("change", function () {
     }
 });
 
+const overrideCheckbox = document.getElementById("overrideCheckbox");
+overrideCheckbox.addEventListener("change", function () {
+    enableOverrideCheckboxValue = this.checked ? this.value : "";
+    console.log(enableOverrideCheckboxValue);
+    if (enableOverrideCheckboxValue === "enableOverrideChecked") {
+        document.getElementById("overrideBtn").disabled = false;
+    } else {
+        document.getElementById("overrideBtn").disabled = true;
+    }
+});
+
 const sensorContainer = document.getElementById('sensorContainer');
 const errorDiv = document.getElementById('error');
 let lastUpdateTime = 0;
@@ -171,6 +237,7 @@ socket.addEventListener('message', (event) => {
     try {
         const data = JSON.parse(event.data);
         processData(data);
+        updateValveStates(data);
         currJSONData = data;
         errorDiv.textContent = '';
     } catch (error) {
@@ -178,6 +245,18 @@ socket.addEventListener('message', (event) => {
         console.error('Error processing data:', error);
     }
 });
+
+function updateValveStates(data){
+    //console.log(data.data.valves);
+    if(enableOverrideCheckboxValue === "enableOverrideChecked"){ //don't change while in override
+        return;
+    }
+    for(v of valveNames) {
+        //console.log(data);
+        let valveReading = data.data.valves[v].valveState;
+        document.getElementById(v).value = valveReading;
+    }
+}
 
 var stateHTML = document.getElementById("lastStateCommandSent");
 
@@ -188,6 +267,34 @@ sendStateCommand = function () {
 
     stateHTML.innerHTML = "&nbsp;Last Sent: " + stateToSet;
     console.log("sent ", stateToSet, " command");
+}
+
+sendOverrideCommand = function () {
+    var activeElementObj = "";
+    for(v of valveNames) {
+        //console.log(v);
+        //console.log(document.getElementById(v).value);
+        activeElementObj = activeElementObj + '\"' +v + '\"'+ ': ' + '\"'+document.getElementById(v).value + '\",';
+    }
+    console.log(activeElementObj);
+    var obj = '{'
+        + '"vehicleConfig": "HorizontalTestStand",'
+        + '"command": "SET_ACTIVE_ELEMENTS",'
+        + '"testName":' + batchName + ","
+        + '"testToken": "iuqh3h1289asdhkk2nadx89hkasdjk",'
+        + '"activeElements": {'
+        + activeElementObj
+        + '}'
+        + '}';
+    console.log(obj);
+
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+    const currentMinutes = currentDate.getMinutes(); // Be careful! January is 0, not 1
+    const currentSeconds = currentDate.getSeconds();
+    const dateString = currentHour + ":" + (currentMinutes) + ":" + currentSeconds;
+    document.getElementById("lastSentOverrideAt").innerHTML = "Last sent override at: " +dateString;
+
 }
 
 function forceSetOnlineSafe() {
@@ -571,9 +678,9 @@ function updateChart_4(sensors) {
 
 var pneumaticSysPress = document.getElementById("pneumaticSysPress");
 function displayPneumaticSystemPressure(pneumaticPressureReading) {
-    if(pneumaticPressureReading.sensorReading < minSafePneumaticPressure){
-        pneumaticSysPress.innerHTML = "<span class=\"alarm\">LOW PNEUMATIC PRESSURE: " + pneumaticPressureReading.sensorReading + " " + pneumaticPressureReading.unit+"</span>";
-    } else{
+    if (pneumaticPressureReading.sensorReading < minSafePneumaticPressure) {
+        pneumaticSysPress.innerHTML = "<span class=\"alarm\">LOW PNEUMATIC PRESSURE: " + pneumaticPressureReading.sensorReading + " " + pneumaticPressureReading.unit + "</span>";
+    } else {
         pneumaticSysPress.innerHTML = "Available Pneumatic Pressure: " + pneumaticPressureReading.sensorReading + " " + pneumaticPressureReading.unit;
     }
 }
