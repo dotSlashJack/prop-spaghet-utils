@@ -3,8 +3,8 @@
 //these are the things you need to update
 
 //where the json is coming from (pi or local testing)
-const socket = new WebSocket('ws://localhost:9002/ws');
-//const socket = new WebSocket('ws://ecs-sim-pi.local:9002');
+//const socket = new WebSocket('ws://localhost:9002/ws');
+const socket = new WebSocket('ws://ecs-sim-pi.local:9002');
 
 //where your states/batches are defined
 const stateSetJSON = "./STATE_SETS.json";

@@ -13,10 +13,10 @@ mini propulsion test stand util code
 
 4) ensure you are connected to the pi, if you are not or the ecs is not running, you will see an error message about websockets.
 
-## Other files
+## Adding more tests and states
 
-Not needed to ruin the GUI as of now, but useful for testing things locally
+To add more states and batches for future tests, update the `STATE_SETS.json` file, following the existing format. The web GUI will automatically populate the dropdowns from this information after restarting the page.
 
-sample spaghet json file is the current format of the json we are getting from the test stand. DUMMY DATA json is not the current format, but approximates the LOX test stand format
+## Websocket Sim
 
-
+If you wish to simulate JSON that would come in from the pi locally, run the `json_dummy_server.py` file and update the socket address (set to `const socket = new WebSocket('ws://localhost:9002/ws');`) in the `script.js` file accordingly. You can also edit the sample json file or add your own to change which values come in.
