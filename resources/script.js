@@ -7,7 +7,7 @@
 const socket = new WebSocket('ws://ecs-sim-pi.local:9002');
 
 //where your states/batches are defined
-const stateSetJSON = "./STATE_SETS.json";
+const stateSetJSON = "../resources/STATE_SETS.json";
 
 const minSafePneumaticPressure = 80.0;
 
