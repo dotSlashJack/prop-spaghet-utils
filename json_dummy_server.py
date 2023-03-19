@@ -3,7 +3,9 @@ import json
 import time
 from flask_sock import Sock
 
-json_path = "DUMMY_DATA.json"
+json_path = "sample spaghet json.json"
+json_file = open(json_path)
+loaded_json = json.load(json_file)
 
 app = Flask(__name__)
 
@@ -15,10 +17,17 @@ def create_app():
 
 
 def get_json():
-    json_file = open(json_path)
-    return json.dumps(json.load(json_file))
     
-@sock.route('/')
+    new_timestamp = str(time.time())
+    for sensor_type in loaded_json["data"]:
+        for sensor in loaded_json["data"][sensor_type]:
+            loaded_json["data"][sensor_type][sensor]["timeStamp"] = new_timestamp
+
+    updated_json = json.dumps(loaded_json)
+    #json_content = json.dumps(json.load(json_file))
+    return updated_json
+    
+@sock.route('/ws')
 def ecs_static_json(ws):
     print(ws)
     while True:
@@ -41,6 +50,6 @@ def ecs_sim():
 """
 
 if __name__ == "__main__":
-    print(get_json())
+    #print(get_json())
     create_app()
-    app.run(debug=True)
+    app.run(host="localhost", port=9002, debug=True)

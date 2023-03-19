@@ -8,7 +8,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> <!--Download and save locally as backup just in case-->
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Raspberry Pi Sensor Data</title>
     <style>
         .sensor-value {
@@ -18,191 +19,68 @@
 </head>
 
 <body>
-    <h3>Raspberry Pi Value Reads</h3><br>
-
-    <div id="sensorContainer"></div>
+    <!--<div id="sensorContainer"></div>-->
     <div id="error" class="sensor-value"></div>
+    <div class="box" >
+        <select id="testTypeDropdown" onchange="updateBatches()"></select>
+
+        <select id="batchDropdown" onchange="updateCommands()"></select>
+
+        <select id="commandDropdown"></select>
+
+        <p id="lastStateCommandSent">&nbsp;Last Sent: UNKNOWN</p>
+    </div>
     <br>
-    <button onclick="downloadJSONFile()">Download current JSON</button>
-    <div id="chart"></div>
+    <div class="grid-container-small">
+        <div class="grid-item-small">
+        <div class="box">
+            <button class="importantBtn" onclick="sendStateCommand()">SEND COMMAND</button>
+            <br><br>
+            <p id="currentTestStandState">Current State: UNKNOWN</p>
+            <br><br>
+            <p id="pneumaticSysPress">Available Pneumatic Pressure: NA</p>
+            <br><br><br>
+            <button class="cautiousBtn" onclick="forceSetOnlineSafe()">ONLINE SAFE</button>
+        </div>
+        </div>
+        <div class="grid-item-small">
+            <div class="box">
+                <div class="wrapped-container">
+                    <div id="sensorContainer" style="color: white;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-container">
+        <div class="grid-item">
+            <div id="chart1"></div>
+            <p>Enable/Disable:</p> <input type="checkbox" id="checkbox_1" value="pressureSensorsChecked" checked>
+        </div>
+        <div class="grid-item">
+            <div id="chart2"></div>
+            <p>Enable/Disable:</p> <input type="checkbox" id="checkbox_2" value="tempSensorsChecked" checked>
+        </div>
+        <div class="grid-item">
+            <div id="chart3"></div>
+            <p>Enable/Disable:</p> <input type="checkbox" id="checkbox_3" value="loadSensorsChecked" checked>
+        </div>
+        <div class="grid-item">
+            <div id="chart4"></div>
+            <p>Enable/Disable:</p> <input type="checkbox" id="checkbox_4" value="pressureSensors2Checked">
+        </div>
+      </div>
+
+    <br>
+    <!--<button onclick="downloadJSONFile()">Download current JSON</button>-->
+    
+
+    <br>
+
+    <script src="./script.js"></script>
 
     <script>
-        const sensorContainer = document.getElementById('sensorContainer');
-        const errorDiv = document.getElementById('error');
-        let lastUpdateTime = 0;
-        const throttleInterval = 500;
-
-        function createSensorDiv(sensorName, sensorValue, unit) {
-            const sensorDiv = document.createElement('div');
-            sensorDiv.className = 'sensor-value';
-            sensorDiv.textContent = `${sensorName}: ${sensorValue.toFixed(2)} ${unit}`;
-            return sensorDiv;
-        }
-
-        function displaySensors(sensorGroup, groupName) {
-            Object.entries(sensorGroup).forEach(([key, sensor]) => {
-                const sensorDiv = createSensorDiv(`${groupName} - ${key}`, sensor.sensorReading, sensor.unit);
-                sensorContainer.appendChild(sensorDiv);
-            });
-        }
-
-
-        function processData(data) {
-            const currentTime = new Date().getTime();
-            if (currentTime - lastUpdateTime < throttleInterval) {
-                return;
-            }
-
-
-            sensorContainer.innerHTML = '';
-
-            displaySensors(data.data.loadCellSensors, 'Load Cell Sensor');
-            displaySensors(data.data.pressureSensors, 'Pressure Sensor');
-            displaySensors(data.data.tempSensors, 'Temperature Sensor');
-
-            updateChart(data.data.pressureSensors);
-
-            lastUpdateTime = currentTime;
-        }
-
-
-        //const socket = new WebSocket('ws://127.0.0.1:5000');
-        const socket = new WebSocket('ws://ecs-sim-pi.local:9002');
-
-        socket.addEventListener('open', (event) => {
-            console.log('WebSocket connection opened:', event);
-        });
-
-        let currJSONData = "";
-
-        socket.addEventListener('message', (event) => {
-            //console.log(event.data);
-            //console.log('WebSocket message received:', event);
-            try {
-                const data = JSON.parse(event.data);
-                processData(data);
-                currJSONData = data;
-                errorDiv.textContent = '';
-            } catch (error) {
-                errorDiv.textContent = 'Error processing data: ' + error.message;
-                console.error('Error processing data:', error);
-            }
-        });
-
-        function downloadJSONFile() {
-            //console.log('click');
-            //console.log(currJSONData);
-            const filename = "curr_json.json";
-            // Parse the JSON data into a JavaScript object
-            //const data = JSON.parse(currJSONData);
-
-            // Convert the JavaScript object into a JSON string
-            const json = JSON.stringify(currJSONData);
-
-            // Create a file object using the JSON string and set the type as 'application/json'
-            const file = new Blob([json], { type: 'application/json' });
-
-            // Create a URL for the file object
-            const url = URL.createObjectURL(file);
-
-            // Create a link element and set its attributes
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = filename;
-
-            // Programmatically click the link element to initiate the download
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        socket.addEventListener('close', (event) => {
-            console.log('WebSocket connection closed:', event);
-            errorDiv.textContent = 'WebSocket connection closed. Please refresh the page to reconnect.';
-        });
-
-        socket.addEventListener('error', (event) => {
-            console.log('WebSocket error:', event);
-            errorDiv.textContent = 'WebSocket error. Please check the connection.';
-            alert("websockets error, check console!");
-        });
-
-        //----------//
-        //PLOT CODE//
-
-        const chartDiv = document.getElementById('chart');
-        const visibleDataPoints = 30;
-
-        // Initialize chart
-        const chartData = [];
-        const chartLayout = {
-            title: 'Pressure Sensors',
-            xaxis: { title: 'Time' },
-            yaxis: { title: 'Sensor Value (PSI)' }
-        };
-
-        function initChart(sensors) {
-            //console.log('init chart');
-            Object.keys(sensors).forEach((key) => {
-                const sensor = sensors[key];
-                chartData.push({
-                    x: [sensor.timeStamp],//new Date().getTime()
-                    y: [sensor.sensorReading],
-                    mode: 'lines+markers',
-                    name: key
-                });
-            });
-            Plotly.newPlot(chartDiv, chartData, chartLayout);
-        }
-
-        function updateChart(sensors) {
-            //console.log("updating chart");
-            let latestTimeStamp = -Infinity;
-
-            Object.keys(sensors).forEach((key, index) => {
-                const sensor = sensors[key];
-                chartData[index].x.push(sensor.timeStamp);
-                chartData[index].y.push(sensor.sensorReading);
-
-                // Remove old data points if the number of data points exceeds visibleDataPoints
-                if (chartData[index].x.length > visibleDataPoints) {
-                    chartData[index].x.shift();
-                    chartData[index].y.shift();
-                }
-
-                latestTimeStamp = Math.max(latestTimeStamp, sensor.timeStamp);
-            });
-
-            // Update x-axis range
-            const startTime = latestTimeStamp - visibleDataPoints * throttleInterval;
-            chartLayout.xaxis.range = [startTime, latestTimeStamp];
-            Plotly.update(chartDiv, chartData, chartLayout);
-        }
-
-        // Modify processData function to initialize and update the chart
-        function processData(data) {
-            //console.log('process data');
-            const currentTime = new Date().getTime();
-            if (currentTime - lastUpdateTime < throttleInterval) {
-                return;
-            }
-
-            sensorContainer.innerHTML = '';
-
-            displaySensors(data.data.loadCellSensors, 'Load Cell Sensor');
-            displaySensors(data.data.pressureSensors, 'Pressure Sensor');
-            displaySensors(data.data.tempSensors, 'Temperature Sensor');
-
-            if (chartData.length === 0) {
-                initChart(data.data.pressureSensors);
-            } else {
-                updateChart(data.data.pressureSensors);
-            }
-
-            lastUpdateTime = currentTime;
-        }
-
-
+        
     </script>
 </body>
 

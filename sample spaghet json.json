@@ -1,6 +1,6 @@
 {
   "command": "DATA",
-  "currentState": "UNKNOWN",
+  "currentState": "ONLINE_SAFE",
   "data": {
     "loadCellSensors": {
       "LC_01": {
