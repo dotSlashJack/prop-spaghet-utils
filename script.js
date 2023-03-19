@@ -35,7 +35,7 @@ fetch(stateSetJSON)
             testTypeDropdown.add(option);
         });
 
-        sateData = data;
+        stateData = data;
 
         // Trigger initial update of batches and commands
         updateBatches();
@@ -139,8 +139,6 @@ checkbox_4.addEventListener("change", function () {
     }
 });
 
-
-
 const sensorContainer = document.getElementById('sensorContainer');
 const errorDiv = document.getElementById('error');
 let lastUpdateTime = 0;
@@ -230,6 +228,7 @@ function downloadJSONFile() {
 socket.addEventListener('close', (event) => {
     console.log('WebSocket connection closed:', event);
     errorDiv.textContent = 'WebSocket connection closed. Please refresh the page to reconnect.';
+    alert("connection closed or lost");
 });
 
 socket.addEventListener('error', (event) => {
