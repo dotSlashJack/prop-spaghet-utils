@@ -232,8 +232,6 @@ socket.addEventListener('open', (event) => {
 let currJSONData = "";
 
 socket.addEventListener('message', (event) => {
-    //console.log(event.data);
-    //console.log('WebSocket message received:', event);
     try {
         const data = JSON.parse(event.data);
         processData(data);
@@ -247,12 +245,10 @@ socket.addEventListener('message', (event) => {
 });
 
 function updateValveStates(data){
-    //console.log(data.data.valves);
     if(enableOverrideCheckboxValue === "enableOverrideChecked"){ //don't change while in override
         return;
     }
     for(v of valveNames) {
-        //console.log(data);
         let valveReading = data.data.valves[v].valveState;
         document.getElementById(v).value = valveReading;
     }
@@ -272,20 +268,26 @@ sendStateCommand = function () {
 sendOverrideCommand = function () {
     var activeElementObj = "";
     for(v of valveNames) {
-        //console.log(v);
-        //console.log(document.getElementById(v).value);
         activeElementObj = activeElementObj + '\"' +v + '\"'+ ': ' + '\"'+document.getElementById(v).value + '\",';
     }
-    console.log(activeElementObj);
-    var obj = '{'
+    //remove comma at end to create valid json
+    activeElementObj = activeElementObj.substring(0, activeElementObj.lastIndexOf(",")) + activeElementObj.substring(activeElementObj.lastIndexOf(",") + 1);
+    /*var obj = '{'
         + '"vehicleConfig": "HorizontalTestStand",'
         + '"command": "SET_ACTIVE_ELEMENTS",'
-        + '"testName":' + batchName + ","
+        + '"testName": "' + batchName + '",'
         + '"testToken": "iuqh3h1289asdhkk2nadx89hkasdjk",'
         + '"activeElements": {'
         + activeElementObj
         + '}'
+        + '}';*/
+    var obj = '{'
+        + '"command": "SET_ACTIVE_ELEMENTS",'
+        + '"activeElements": {'
+        + activeElementObj
+        + '}'
         + '}';
+    socket.send(obj);
     console.log(obj);
 
     const currentDate = new Date();
@@ -301,16 +303,11 @@ function forceSetOnlineSafe() {
     var command = { command: "SET_STATE", newState: "ONLINE_SAFE" };
     socket.send(JSON.stringify(command));
     stateHTML.innerHTML = "&nbsp;Last Sent: ONLINE_SAFE";
-    console.log("Selected and sent command: ONLINE_SAFE ");
 }
 
 
 function downloadJSONFile() {
-    //console.log('click');
-    //console.log(currJSONData);
     const filename = "curr_json.json";
-    // Parse the JSON data into a JavaScript object
-    //const data = JSON.parse(currJSONData);
 
     // Convert the JavaScript object into a JSON string
     const json = JSON.stringify(currJSONData);
@@ -514,7 +511,6 @@ const chart4Layout = {
 
 ////// CHARTS //////
 function initChart_1(sensors) {
-    //console.log('init chart');
     Object.keys(sensors).forEach((key) => {
         const sensor = sensors[key];
         chartData_1.push({
@@ -528,7 +524,6 @@ function initChart_1(sensors) {
 }
 
 function updateChart_1(sensors) {
-    //console.log("updating chart");
     let latestTimeStamp = -Infinity;
 
     Object.keys(sensors).forEach((key, index) => {
@@ -554,7 +549,6 @@ function updateChart_1(sensors) {
 ///2nd chart
 
 function initChart_2(sensors) {
-    //console.log('init chart');
     Object.keys(sensors).forEach((key) => {
         const sensor = sensors[key];
         chartData_2.push({
@@ -568,7 +562,6 @@ function initChart_2(sensors) {
 }
 
 function updateChart_2(sensors) {
-    //console.log("updating chart");
     let latestTimeStamp = -Infinity;
 
     Object.keys(sensors).forEach((key, index) => {
@@ -594,7 +587,6 @@ function updateChart_2(sensors) {
 //3rd chart
 
 function initChart_3(sensors) {
-    //console.log('init chart');
     Object.keys(sensors).forEach((key) => {
         const sensor = sensors[key];
         chartData_3.push({
@@ -608,7 +600,6 @@ function initChart_3(sensors) {
 }
 
 function updateChart_3(sensors) {
-    //console.log("updating chart");
     let latestTimeStamp = -Infinity;
 
     Object.keys(sensors).forEach((key, index) => {
@@ -634,7 +625,6 @@ function updateChart_3(sensors) {
 //4th chart
 
 function initChart_4(sensors) {
-    //console.log('init chart');
     Object.keys(sensors).forEach((key) => {
         const sensor = sensors[key];
         chartData_4.push({
@@ -648,7 +638,6 @@ function initChart_4(sensors) {
 }
 
 function updateChart_4(sensors) {
-    //console.log("updating chart");
     let latestTimeStamp = -Infinity;
 
     Object.keys(sensors).forEach((key, index) => {
@@ -692,7 +681,6 @@ function displayTestStandState(currentState) {
 
 // Modify processData function to initialize and update the chart
 function processData(data) {
-    //console.log('process data');
     const currentTime = new Date().getTime();
     if (currentTime - lastUpdateTime < throttleInterval) {
         return;
