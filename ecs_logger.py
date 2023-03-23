@@ -50,6 +50,8 @@ class LoggerApp:
         self.csv_writer = None
         self.header_written = False
 
+        self.last_gui_update_time = 0
+
     # used for toggling close button on/off
     def disable_close_button(self):
         pass
@@ -94,7 +96,7 @@ class LoggerApp:
         self.save_directory = filedialog.askdirectory()
 
     def create_csv_file(self):
-        file_name = os.path.join(self.save_directory, f"logger_{time.time()}.csv")
+        file_name = os.path.join(self.save_directory, f"logger_{time.strftime('%m-%d-%Y_%H-%M-%S', time.localtime( int(time.time()) ))}.csv")
         csv_file = open(file_name, 'w', newline='')
         csv_writer = csv.writer(csv_file)
         return csv_file, csv_writer
@@ -104,6 +106,7 @@ class LoggerApp:
 
     async def connect(self):
         uri = f"ws://{self.address}"
+        print("Connecting to: ", uri)
         async with websockets.connect(uri) as websocket:
             while self.is_logging:
                 data = await websocket.recv()
@@ -137,8 +140,11 @@ class LoggerApp:
         self.csv_writer.writerow(row_data.values())
         self.csv_file.flush()
 
+        # only upate the GUI with json report count at 2Hz (time.time is in *seconds* not ms)
         self.file_count += 1
-        self.file_count_label.config(text=f"JSON reports received: {self.file_count}")
+        if(time.time() - self.last_gui_update_time > 0.5):
+            self.file_count_label.config(text=f"JSON reports received: {self.file_count}")
+            self.last_gui_update_time = time.time()
 
 
 if __name__ == "__main__":
