@@ -37,6 +37,16 @@ def ecs_static_json(ws):
         #ws.send(jsonify(get_json()))
         ws.send(get_json())
 
+@sock.route('/')
+def get_request(ws):
+    print(ws)
+    while True:
+        #time.sleep(6) #rate limit api output
+        #print('progres')
+        #data = ws.receive()
+        #ws.send(jsonify(get_json()))
+        ws.send(get_json())
+
 """
 @app.route('/')
 def index():

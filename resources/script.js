@@ -1,6 +1,6 @@
 //Jack Hester for AeroNU
 
-//these are the things you need to update
+//these are the main things you need to update here at the top
 
 //where the json is coming from (pi or local testing)
 //const socket = new WebSocket('ws://localhost:9002/ws');
@@ -10,12 +10,12 @@ const socket = new WebSocket('ws://ecs-sim-pi.local:9002');
 const stateSetJSON = "../resources/STATE_SETS.json";
 const valveNameJSON = "../resources/VALVE_NAMES.json";
 
-
 const minSafePneumaticPressure = 80.0;
 
 
-
 //---------//
+
+alert("Don't forget to turn on the logger!");
 
 let stateData = null;
 let batchName = "waterflow";
@@ -49,9 +49,6 @@ fetch(valveNameJSON)
             select.appendChild(option1);
             select.appendChild(option2);
             select.id = name;
-            //option1.("OPEN");
-            //option.add("CLOSED");
-            //select.add(option);
 
             let namedSelect = document.createElement('div');
             namedSelect.className = "select-with-dropdown";
@@ -60,11 +57,6 @@ fetch(valveNameJSON)
             //namedSelect.innerHTML = "<p>"+name+"</p><br>"+select.ele;
 
             overrideGrid.appendChild(namedSelect);
-
-            //var option = document.createElement("option");
-            //option.text = testType.name;
-            //option.value = testType.name;
-            //testTypeDropdown.add(option);
         });
     });
 
@@ -446,7 +438,8 @@ const chart3Layout = {
     },
     yaxis: {
         title: {
-            text: 'Load Cell Value',
+            //text: 'Load Cell Value', //TODO: update this and later vals if you want to add load cells back  in
+            text: 'Sensor Reading (PSI)',
             font: {
                 color: 'white'
             }
@@ -456,7 +449,8 @@ const chart3Layout = {
         }
     },
     title: {
-        text: 'Load Cell Sensors',
+        //text: 'Load Cell Sensors',
+        text: 'Pressure Sensors',
         font: {
             color: 'white'
         }
@@ -593,7 +587,8 @@ function initChart_3(sensors) {
             x: [sensor.timeStamp],//new Date().getTime()
             y: [sensor.sensorReading],
             mode: 'lines+markers',
-            name: 'LC_01' //TODO: modify this if there are more load cell sensors
+            //name: 'LC_01' //TODO: modify this if there are more load cell sensors (disabled because currently set to pressure sensors)
+            name: key
         });
     });
     Plotly.newPlot(chartDiv_3, chartData_3, chart3Layout);
@@ -710,13 +705,23 @@ function processData(data) {
         }
     }
 
-    if (chartData_3.length === 0) {
+    // TODO: put this part back if you want to use load cells again, but they're on a separate arduino for now
+    //note that the checkbox names were not changed to reflect pressure sensors instead of load cell sensors
+    /*if (chartData_3.length === 0) {
         initChart_3(data.data.loadCellSensors);
     } else {
         if (loadCheckboxValue === "loadSensorsChecked") {
             updateChart_3(data.data.loadCellSensors);
         }
+    }*/
+    if (chartData_3.length === 0) {
+        initChart_3(data.data.pressureSensors);
+    } else {
+        if (loadCheckboxValue === "loadSensorsChecked") {
+            updateChart_3(data.data.pressureSensors);
+        }
     }
+    ///
 
     if (chartData_4.length === 0) {
         initChart_4(data.data.pressureSensors);

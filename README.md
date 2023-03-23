@@ -13,6 +13,20 @@ mini propulsion test stand util code
 
 4) ensure you are connected to the pi, if you are not or the ecs is not running, you will see an error message about websockets.
 
+## Running the logger
+
+1) make sure tkinter is installed
+
+2) open the window by running `python(3) ecs_logger.py`
+
+3) choose a save directory for the logs, make sure you're connected to the pi (or sim) and update the address accordingly
+
+4) click `start logging` to begin, and make sure the number of json reports increases if you are expecting data; the csv should also show up immediately and will be timestamped with epoch time
+
+5) click `stop logging` when done
+
+NB: To split the file mid-run (for analysis, etc.) click the split new file button. This will break off a new log csv file starting at the time of the click, and stop logging to the original file
+
 ## Adding more tests and states
 
 To add more states and batches for future tests, update the `STATE_SETS.json` file, following the existing format. The web GUI will automatically populate the dropdowns from this information after restarting the page.
