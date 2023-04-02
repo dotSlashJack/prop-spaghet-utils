@@ -29,6 +29,12 @@
         <select id="commandDropdown"></select>
 
         <p id="lastStateCommandSent">&nbsp;Last Sent: UNKNOWN</p>
+
+        <p>&nbsp;&nbsp;</p>
+        <select id="sequenceDropdown"></select>
+        <p>&nbsp;Sequences Enabled:</p>&nbsp;<input type="checkbox" id="sequenceCheckbox" value="sequenceBoxChecked">
+        
+
     </div>
     <br>
     <div class="grid-container-small">
@@ -40,7 +46,9 @@
             <br><br>
             <p id="pneumaticSysPress">Available Pneumatic Pressure: NA</p>
             <br><br><br>
-            <button class="cautiousBtn" onclick="forceSetOnlineSafe()">ONLINE SAFE</button>
+            <button class="dangerBtn" onclick="forceSetOnlineSafe()">ONLINE SAFE</button>
+            <br><br><br>
+            <button class="cautiousBtn" id="sequencerButton" onclick="sendSequenceCommand()" disabled>EXECUTE SEQUENCE</button>
         </div>
         </div>
         <div class="grid-item-small">
@@ -65,12 +73,16 @@
             <p>Enable/Disable:</p> <input type="checkbox" id="checkbox_1" value="pressureSensorsChecked" checked>
         </div>
         <div class="grid-item">
-            <div id="chart2"></div>
-            <p>Enable/Disable:</p> <input type="checkbox" id="checkbox_2" value="tempSensorsChecked" checked>
-        </div>
-        <div class="grid-item">
+            <!--<div id="chart2"></div>
+            <p>Enable/Disable:</p> <input type="checkbox" id="checkbox_2" value="tempSensorsChecked" checked>-->
             <div id="chart3"></div>
             <p>Enable/Disable:</p> <input type="checkbox" id="checkbox_3" value="loadSensorsChecked" checked>
+        </div>
+        <div class="grid-item">
+            <!--<div id="chart3"></div>
+            <p>Enable/Disable:</p> <input type="checkbox" id="checkbox_3" value="loadSensorsChecked" checked>-->
+            <div id="chart2"></div>
+            <p>Enable/Disable:</p> <input type="checkbox" id="checkbox_2" value="tempSensorsChecked" checked>
         </div>
         <div class="grid-item">
             <div id="chart4"></div>

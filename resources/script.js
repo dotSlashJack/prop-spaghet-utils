@@ -5,11 +5,13 @@
 //where the json is coming from (pi or local testing)
 //const socket = new WebSocket('ws://localhost:9002/ws');
 //const socket = new WebSocket('ws://169.254.146.189:9002');
+//const socket = new WebSocket('ws://spaghetti-pi.local:9002/ws');
 const socket = new WebSocket('ws://ecs-sim-pi.local:9002/ws');
 
 //where your states/batches are defined
 const stateSetJSON = "../resources/STATE_SETS.json";
 const valveNameJSON = "../resources/VALVE_NAMES.json";
+const sequenceNameJSON = "../resources/SEQUENCE_NAMES.json"
 
 const minSafePneumaticPressure = 80.0;
 
@@ -61,10 +63,35 @@ fetch(valveNameJSON)
         });
     });
 
+
+//sequences
+let sequenceNames = [];
+fetch(sequenceNameJSON)
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        console.log("ll");
+        sequenceNames = data[0].sequences;
+        console.log(sequenceNames);
+
+        // Populate sequence dropdown with options
+        var sequenceTypeDropdown = document.getElementById("sequenceDropdown");
+        sequenceTypeDropdown.className = 'dropdown';
+        sequenceNames.forEach(name => {
+            var option = document.createElement("option");
+            option.text = name;
+            option.value = name;
+            //sequenceTypeDropdown.add(option);
+
+            sequenceTypeDropdown.add(option);
+        });
+    });
+
 //createDropdownGrid();
 
 
-//----- HANDLE MENU CREATION --///
+//----- HANDLE STATE MENUS CREATION --///
 
 fetch(stateSetJSON)
     .then(function (response) {
@@ -149,6 +176,7 @@ let tempCheckboxValue = "tempSensorsChecked";
 let loadCheckboxValue = "loadSensorsChecked";
 let pressureCheckbox2Value = "";
 let enableOverrideCheckboxValue = "";
+let sequencerCheckboxValue = "";
 
 //see if things are checked/unchecked to update what's on the graphs
 const checkbox_1 = document.getElementById("checkbox_1");
@@ -198,6 +226,20 @@ overrideCheckbox.addEventListener("change", function () {
     }
 });
 
+const sequencerCheckbox = document.getElementById("sequenceCheckbox");
+sequencerCheckbox.addEventListener("change", function () {
+    enableSequenceCheckboxValue = this.checked ? this.value : "";
+    console.log(enableSequenceCheckboxValue);
+    if (enableSequenceCheckboxValue === "sequenceBoxChecked") {
+        document.getElementById("sequencerButton").disabled = false;
+    } else {
+        document.getElementById("sequencerButton").disabled = true;
+    }
+});
+///
+
+// Sensor reading box population
+
 const sensorContainer = document.getElementById('sensorContainer');
 const errorDiv = document.getElementById('error');
 let lastUpdateTime = 0;
@@ -206,7 +248,7 @@ const throttleInterval = 500;
 function createSensorDiv(sensorName, sensorValue, unit) {
     const sensorDiv = document.createElement('div');
     sensorDiv.className = 'sensor-value';
-    sensorDiv.textContent = `${sensorName}: ${sensorValue.toFixed(2)} ${unit}`;
+    sensorDiv.textContent = `${sensorName}: ${sensorValue.toFixed(4)} ${unit}`;
     return sensorDiv;
 }
 
@@ -214,7 +256,7 @@ function displaySensors(sensorGroup, groupName) {
     Object.entries(sensorGroup).forEach(([key, sensor]) => {
         //const sensorDiv = createSensorDiv(`${groupName} - ${key}`, sensor.sensorReading, sensor.unit);
         const sensorDiv = createSensorDiv(`${key}`, sensor.sensorReading, sensor.unit);
-        sensorContainer.appendChild(sensorDiv); //TODO:
+        sensorContainer.appendChild(sensorDiv); //TODO
     });
 }
 
@@ -256,6 +298,16 @@ sendStateCommand = function () {
 
     stateHTML.innerHTML = "&nbsp;Last Sent: " + stateToSet;
     console.log("sent ", stateToSet, " command");
+}
+
+sendSequenceCommand = function () {
+    //{"command": "START_SEQUENCE", "sequence": sequence}
+    var sequenceToSet = document.getElementById("sequenceDropdown").value;
+    var command = { command: "START_SEQUENCE", sequence: sequenceToSet };
+    socket.send(JSON.stringify(command));
+
+    stateHTML.innerHTML = "&nbsp;Last Sent: " + stateToSet;
+    console.log("sent ", sequenceToSet, " sequence command");
 }
 
 sendOverrideCommand = function () {
