@@ -31,6 +31,14 @@ NB: To split the file mid-run (for analysis, etc.) click the split new file butt
 
 To add more states and batches for future tests, update the `STATE_SETS.json` file, following the existing format. The web GUI will automatically populate the dropdowns from this information after restarting the page.
 
+## Adding more valves
+
+For valves, edit `VALVE_NAMES.json`. Keep in mind that the `type` determines where in the GUI the valve will show. Right now, it's set up to have an oxidizer (light blue) section and a fuel (light red) section. Type tells the javascript code where to put each valve.
+
+## Adding more sequences
+
+Add a sequence name to `SEQUENCE_NAMES.json`, making sure it matches the exact string name of the sequence in the ecs software itself.
+
 ## Websocket Sim
 
 If you wish to simulate JSON that would come in from the pi locally, run the `json_dummy_server.py` file and update the socket address (set to `const socket = new WebSocket('ws://localhost:9002/ws');`) in the `script.js` file accordingly. You can also edit the sample json file or add your own to change which values come in.

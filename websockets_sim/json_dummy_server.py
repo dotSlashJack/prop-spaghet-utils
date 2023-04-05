@@ -35,6 +35,7 @@ def ecs_static_json(ws):
         #print('progres')
         #data = ws.receive()
         #ws.send(jsonify(get_json()))
+        time.sleep(0.5)
         ws.send(get_json())
 
 @sock.route('/')
@@ -45,6 +46,7 @@ def get_request(ws):
         #print('progres')
         #data = ws.receive()
         #ws.send(jsonify(get_json()))
+        time.sleep(0.5)
         ws.send(get_json())
 
 """

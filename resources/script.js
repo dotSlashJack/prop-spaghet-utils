@@ -3,10 +3,10 @@
 //these are the main things you need to update here at the top
 
 //where the json is coming from (pi or local testing)
-//const socket = new WebSocket('ws://localhost:9002/ws');
+const socket = new WebSocket('ws://localhost:9002/ws');
 //const socket = new WebSocket('ws://169.254.146.189:9002');
 //const socket = new WebSocket('ws://spaghetti-pi.local:9002/ws');
-const socket = new WebSocket('ws://ecs-sim-pi.local:9002/ws');
+//const socket = new WebSocket('ws://ecs-sim-pi.local:9002/ws');
 
 //where your states/batches are defined
 const stateSetJSON = "../resources/STATE_SETS.json";
@@ -32,15 +32,23 @@ fetch(valveNameJSON)
         return response.json();
     })
     .then(function (data) {
-        valveNames = data[0].valves;
+        valves = data[0].valves;
+        //valveNames = data[0].valves
 
-        const overrideGrid = document.getElementById('override-buttons');
+        const overrideGridOx = document.getElementById('override-buttons-ox');
+        const overrideGridFuel = document.getElementById('override-buttons-fuel');
 
         // Populate testType dropdown with options
         //var testTypeDropdown = document.getElementById("testTypeDropdown");
-        valveNames.forEach(name => {
+        valves.forEach(valve => {
+            valveNames.push(valve.name);
             const select = document.createElement('select');
-            select.className = 'dropdown';
+            if(valve.type === "oxidizer"){
+                select.className = 'dropdown-ox';
+            } else if(valve.type === "fuel"){
+                select.className = 'dropdown-fuel';
+            }
+            
             const option1 = document.createElement('option');
             const option2 = document.createElement('option');
 
@@ -51,15 +59,23 @@ fetch(valveNameJSON)
 
             select.appendChild(option1);
             select.appendChild(option2);
-            select.id = name;
+            select.id = valve.name;
 
             let namedSelect = document.createElement('div');
             namedSelect.className = "select-with-dropdown";
-            namedSelect.append(name);
+            if(valve.type === "oxidizer"){
+                namedSelect.style = "color: lightblue;"
+            } else if(valve.type === "fuel"){
+                namedSelect.style = "color: rgb(231, 76, 97);"
+            }
+            namedSelect.append(valve.name);
             namedSelect.append(select);
             //namedSelect.innerHTML = "<p>"+name+"</p><br>"+select.ele;
-
-            overrideGrid.appendChild(namedSelect);
+            if(valve.type === "oxidizer"){
+                overrideGridOx.appendChild(namedSelect);
+            } else if(valve.type === "fuel"){
+                overrideGridFuel.appendChild(namedSelect);
+            }
         });
     });
 
@@ -71,7 +87,6 @@ fetch(sequenceNameJSON)
         return response.json();
     })
     .then(function (data) {
-        console.log("ll");
         sequenceNames = data[0].sequences;
         console.log(sequenceNames);
 
@@ -284,6 +299,7 @@ function updateValveStates(data){
         return;
     }
     for(v of valveNames) {
+        console.log(v);
         let valveReading = data.data.valves[v].valveState;
         document.getElementById(v).value = valveReading;
     }
@@ -735,9 +751,9 @@ function processData(data) {
     }
     sensorContainer.innerHTML = '';
 
-    displaySensors(data.data.loadCellSensors, 'Load Cell Sensor');
+    //displaySensors(data.data.loadCellSensors, 'Load Cell Sensor');
     displaySensors(data.data.pressureSensors, 'Pressure Sensor');
-    displaySensors(data.data.tempSensors, 'Temperature Sensor');
+    //displaySensors(data.data.tempSensors, 'Temperature Sensor');
 
     displayPneumaticSystemPressure(data.data.pressureSensors.Pneumatic);
     displayTestStandState(data.currentState);
@@ -750,13 +766,22 @@ function processData(data) {
         }
     }
 
-    if (chartData_2.length === 0) {
+    // TODO: put this part back if you want to use load cells again, but they're on a separate arduino for now
+    /*if (chartData_2.length === 0) {
         initChart_2(data.data.tempSensors);
     } else {
         if (tempCheckboxValue === "tempSensorsChecked") {
             updateChart_2(data.data.tempSensors);
         }
+    }*/
+    if (chartData_2.length === 0) {
+        initChart_2(data.data.pressureSensors);
+    } else {
+        if (tempCheckboxValue === "tempSensorsChecked") {
+            updateChart_2(data.data.pressureSensors);
+        }
     }
+    /// end todo1 ///
 
     // TODO: put this part back if you want to use load cells again, but they're on a separate arduino for now
     //note that the checkbox names were not changed to reflect pressure sensors instead of load cell sensors
@@ -774,7 +799,7 @@ function processData(data) {
             updateChart_3(data.data.pressureSensors);
         }
     }
-    ///
+    /// end todo2 ///
 
     if (chartData_4.length === 0) {
         initChart_4(data.data.pressureSensors);

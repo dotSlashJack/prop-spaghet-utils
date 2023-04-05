@@ -43,7 +43,7 @@ body {
 }
 
 .wrapped-container {
-    max-height: 200px;
+    max-height: 350px;
     columns: 2;
     display: inline-block;
     vertical-align: top;
@@ -141,6 +141,20 @@ p {
     background-color: #181F2D;
     margin-top: 5px;
     color: white;
+}
+
+.dropdown-ox{
+    width: 100%;
+    background-color: #181F2D;
+    margin-top: 5px;
+    color: lightblue;
+}
+
+.dropdown-fuel{
+    width: 100%;
+    background-color: #181F2D;
+    margin-top: 5px;
+    color: rgb(231, 76, 97);
 }
 
 #chart {
