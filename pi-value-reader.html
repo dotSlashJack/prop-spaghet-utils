@@ -20,8 +20,8 @@
 
 <body>
     <!--<div id="sensorContainer"></div>-->
-    <div id="error" class="sensor-value"></div>
-    <div class="box" >
+    <div id="error" class="sensor-value" ></div>
+    <div class="box" style="margin-right: 5px;">
         <select id="testTypeDropdown" onchange="updateBatches()"></select>
 
         <select id="batchDropdown" onchange="updateCommands()"></select>
@@ -29,15 +29,14 @@
         <select id="commandDropdown"></select>
 
         <p id="lastStateCommandSent">&nbsp;Last Sent: UNKNOWN</p>
-
-        <p>&nbsp;&nbsp;</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
         <select id="sequenceDropdown"></select>
+        <br /><br />
         <p>&nbsp;Sequences Enabled:</p>&nbsp;<input type="checkbox" id="sequenceCheckbox" value="sequenceBoxChecked">
-        
-
+        <p>&nbsp;Hotbuttons Enabled:</p>&nbsp;<input type="checkbox" id="hotbuttonCheckbox" value="hotbuttonBoxChecked">
     </div>
     <br>
-    <div class="grid-container-small">
+    <div class="grid-container-small-x3">
         <div class="grid-item-small">
         <div class="box">
             <button class="importantBtn" onclick="sendStateCommand()">SEND COMMAND</button>
@@ -46,10 +45,44 @@
             <br><br>
             <p id="pneumaticSysPress">Available Pneumatic Pressure: NA</p>
             <br><br><br>
-            <button class="dangerBtn" onclick="forceSetOnlineSafe()">ONLINE SAFE</button>
-            <br><br><br>
-            <button class="cautiousBtn" id="sequencerButton" onclick="sendSequenceCommand()" disabled>EXECUTE SEQUENCE</button>
+            <button class="importanterBtn" id="sequencerButton" onclick="sendSequenceCommand()" disabled>EXECUTE SEQUENCE</button>
         </div>
+        </div>
+        <div class="grid-item-small">
+            <div class="box">
+                <div class="wrapped-container">
+                    <button id="onlineSafeBtn" class="cautiousBtn" onclick="forceSetOnlineSafe()" disabled>ONLINE SAFE</button>
+                    <br><br><br>
+                </div>
+                <div class="wrapped-container">
+                    <button id="pauseBtn" class="cautiousBtn" onclick="forcePause()" disabled>PAUSE FLOW</button>
+                    <br><br><br><br><br><br>
+                </div>
+                <div class="wrapped-container">
+                    <button id="abortBtn" class="dangerBtn" onclick="forceAbort()" disabled>ABORT</button>
+                    <br><br><br>
+                </div>
+            </div>
+        </div>
+        <div class="grid-item-small">
+            <div class="box">
+                <div class="wrapped-container">
+                    <!--<div id="sensorContainer" style="color: white;"></div>-->
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <br>
+    <div class="grid-container-small-x2">
+        <div class="grid-item-small">
+            <div class="box">
+                <div id="override-buttons-ox" class="grid-container-overrides"></div><br>
+                <div id="override-buttons-fuel" class="grid-container-overrides"></div><br>
+                <button id="overrideBtn" class="importantBtn" onclick="sendOverrideCommand()" disabled>SET STATES</button>
+                <p id="lastSentOverrideAt">Last Sent override at: NA</p>
+                <p>&nbsp; | &nbsp;Enable Override:</p> <input type="checkbox" id="overrideCheckbox" value="enableOverrideChecked">
+            </div>
         </div>
         <div class="grid-item-small">
             <div class="box">
@@ -58,14 +91,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <br>
-    <div class="box">
-        <div id="override-buttons-ox" class="grid-container-overrides"></div><br>
-        <div id="override-buttons-fuel" class="grid-container-overrides"></div><br>
-        <button id="overrideBtn" class="importantBtn" onclick="sendOverrideCommand()" disabled>SET STATES</button>
-        <p id="lastSentOverrideAt">Last Sent override at: NA</p>
-        <p>&nbsp; | &nbsp;Enable Override:</p> <input type="checkbox" id="overrideCheckbox" value="enableOverrideChecked">
     </div>
     <br>
     <div class="grid-container">

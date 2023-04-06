@@ -23,7 +23,7 @@ const throttleInterval = 250; //ms between value/graph updates
 alert("Don't forget to turn on the logger!");
 
 let stateData = null;
-let batchName = "waterflow";
+const defaultBatch = "COLD_FLOW";
 
 
 //----- HANDLE OVERRIDE BUTTON JSON --//
@@ -41,16 +41,15 @@ fetch(valveNameJSON)
         const overrideGridFuel = document.getElementById('override-buttons-fuel');
 
         // Populate testType dropdown with options
-        //var testTypeDropdown = document.getElementById("testTypeDropdown");
         valves.forEach(valve => {
             valveNames.push(valve.name);
             const select = document.createElement('select');
-            if(valve.type === "oxidizer"){
+            if (valve.type === "oxidizer") {
                 select.className = 'dropdown-ox';
-            } else if(valve.type === "fuel"){
+            } else if (valve.type === "fuel") {
                 select.className = 'dropdown-fuel';
             }
-            
+
             const option1 = document.createElement('option');
             const option2 = document.createElement('option');
 
@@ -65,45 +64,22 @@ fetch(valveNameJSON)
 
             let namedSelect = document.createElement('div');
             namedSelect.className = "select-with-dropdown";
-            if(valve.type === "oxidizer"){
-                namedSelect.style = "color: lightblue; font-size: larger;";
-            } else if(valve.type === "fuel"){
-                namedSelect.style = "color: rgb(252, 127, 32); font-size: larger;";
+            if (valve.type === "oxidizer") {
+                namedSelect.style = "color: lightblue; font-size: large;";
+            } else if (valve.type === "fuel") {
+                namedSelect.style = "color: rgb(252, 127, 32); font-size: large;";
             }
             namedSelect.append(valve.name);
             namedSelect.append(select);
             //namedSelect.innerHTML = "<p>"+name+"</p><br>"+select.ele;
-            if(valve.type === "oxidizer"){
+            if (valve.type === "oxidizer") {
                 overrideGridOx.appendChild(namedSelect);
-            } else if(valve.type === "fuel"){
+            } else if (valve.type === "fuel") {
                 overrideGridFuel.appendChild(namedSelect);
             }
         });
     });
 
-
-//sequences
-let sequenceNames = [];
-fetch(sequenceNameJSON)
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        sequenceNames = data[0].sequences;
-        //console.log(sequenceNames);
-
-        // Populate sequence dropdown with options
-        var sequenceTypeDropdown = document.getElementById("sequenceDropdown");
-        sequenceTypeDropdown.className = 'dropdown';
-        sequenceNames.forEach(name => {
-            var option = document.createElement("option");
-            option.text = name;
-            option.value = name;
-            //sequenceTypeDropdown.add(option);
-
-            sequenceTypeDropdown.add(option);
-        });
-    });
 
 //createDropdownGrid();
 
@@ -128,10 +104,12 @@ fetch(stateSetJSON)
 
         stateData = data;
 
+        testTypeDropdown.value = defaultBatch;
+
         // Trigger initial update of batches and commands
         updateBatches();
+        updateSequences();
     });
-
 
 // functions to define the state sets iteratively from json
 var testType = [];
@@ -155,8 +133,9 @@ function updateBatches() {
         }
     });
 
-    // Trigger update of commands
+    // Trigger update of commands and sequences
     updateCommands();
+    updateSequences();
 }
 
 
@@ -185,6 +164,36 @@ function updateCommands() {
     });
 }
 
+function updateSequences() {
+    var selectedtestType = document.getElementById("testTypeDropdown").value;
+
+    // Clear existing options in command dropdown
+    sequenceDropdown.innerHTML = "";
+
+    //sequences
+    let sequenceNames = [];
+    fetch(sequenceNameJSON)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            sequenceNames = data[selectedtestType];
+            //console.log(sequenceNames);
+
+            // Populate sequence dropdown with options
+            var sequenceTypeDropdown = document.getElementById("sequenceDropdown");
+            sequenceTypeDropdown.className = 'dropdown';
+            sequenceNames.forEach(name => {
+                var option = document.createElement("option");
+                option.text = name;
+                option.value = name;
+                //sequenceTypeDropdown.add(option);
+
+                sequenceTypeDropdown.add(option);
+            });
+        });
+}
+
 ///
 
 
@@ -193,7 +202,8 @@ let tempCheckboxValue = "tempSensorsChecked";
 let loadCheckboxValue = "loadSensorsChecked";
 let pressureCheckbox2Value = "";
 let enableOverrideCheckboxValue = "";
-let sequencerCheckboxValue = "";
+let enableSequenceCheckboxValue = "";
+let enableHotbuttonCheckbox = "";
 
 //see if things are checked/unchecked to update what's on the graphs
 const checkbox_1 = document.getElementById("checkbox_1");
@@ -253,6 +263,22 @@ sequencerCheckbox.addEventListener("change", function () {
         document.getElementById("sequencerButton").disabled = true;
     }
 });
+
+const hotbuttonCheckbox = document.getElementById("hotbuttonCheckbox");
+hotbuttonCheckbox.addEventListener("change", function () {
+    enableHotbuttonCheckbox = this.checked ? this.value : "";
+    console.log(hotbuttonCheckbox);
+    if (enableHotbuttonCheckbox === "hotbuttonBoxChecked") {
+        document.getElementById("abortBtn").disabled = false;
+        document.getElementById("onlineSafeBtn").disabled = false;
+        document.getElementById("pauseBtn").disabled = false;
+    } else {
+        document.getElementById("abortBtn").disabled = true;
+        document.getElementById("onlineSafeBtn").disabled = true;
+        document.getElementById("pauseBtn").disabled = true;
+    }
+});
+
 ///
 
 // Sensor reading box population
@@ -295,18 +321,17 @@ socket.addEventListener('message', (event) => {
     }
 });
 
-function updateValveStates(data){
-    if(enableOverrideCheckboxValue === "enableOverrideChecked"){ //don't change while in override
+function updateValveStates(data) {
+    if (enableOverrideCheckboxValue === "enableOverrideChecked") { //don't change while in override
         return;
     }
-    for(v of valveNames) {
-        console.log(v);
+    for (v of valveNames) {
         let valveReading = data.data.valves[v].valveState;
         let valveDocText = document.getElementById(v);
         valveDocText.value = valveReading;
-        if(valveReading==="OPEN"){
+        if (valveReading === "OPEN") {
             valveDocText.style.color = "lightgreen";
-        } else if(valveReading==="CLOSED"){
+        } else if (valveReading === "CLOSED") {
             valveDocText.style.color = "rgb(231, 76, 97)";
         }
     }
@@ -326,17 +351,22 @@ sendStateCommand = function () {
 sendSequenceCommand = function () {
     //{"command": "START_SEQUENCE", "sequence": sequence}
     var sequenceToSet = document.getElementById("sequenceDropdown").value;
-    var command = { command: "START_SEQUENCE", sequence: sequenceToSet };
-    socket.send(JSON.stringify(command));
+    if (sequenceToSet === "SELECT SEQUENCE") {
+        console.log("no sequence selected so not sending");
+        return;
+    } else {
+        var command = { command: "START_SEQUENCE", sequence: sequenceToSet };
+        socket.send(JSON.stringify(command));
 
-    stateHTML.innerHTML = "&nbsp;Last Sent: " + stateToSet;
-    console.log("sent ", sequenceToSet, " sequence command");
+        stateHTML.innerHTML = "&nbsp;Last Sent: " + sequenceToSet;
+        console.log("sent ", sequenceToSet, " sequence command");
+    }
 }
 
 sendOverrideCommand = function () {
     var activeElementObj = "";
-    for(v of valveNames) {
-        activeElementObj = activeElementObj + '\"' +v + '\"'+ ': ' + '\"'+document.getElementById(v).value + '\",';
+    for (v of valveNames) {
+        activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + '\"' + document.getElementById(v).value + '\",';
     }
     //remove comma at end to create valid json
     activeElementObj = activeElementObj.substring(0, activeElementObj.lastIndexOf(",")) + activeElementObj.substring(activeElementObj.lastIndexOf(",") + 1);
@@ -363,7 +393,7 @@ sendOverrideCommand = function () {
     const currentMinutes = currentDate.getMinutes(); // Be careful! January is 0, not 1
     const currentSeconds = currentDate.getSeconds();
     const dateString = currentHour + ":" + (currentMinutes) + ":" + currentSeconds;
-    document.getElementById("lastSentOverrideAt").innerHTML = "Last sent override at: " +dateString;
+    document.getElementById("lastSentOverrideAt").innerHTML = "Last sent override at: " + dateString;
 
 }
 
@@ -371,6 +401,22 @@ function forceSetOnlineSafe() {
     var command = { command: "SET_STATE", newState: "ONLINE_SAFE" };
     socket.send(JSON.stringify(command));
     stateHTML.innerHTML = "&nbsp;Last Sent: ONLINE_SAFE";
+    console.log("sent force online safe");
+}
+
+function forceAbort() {
+    var command = { command: "START_SEQUENCE", sequence: "ABORT" };
+    socket.send(JSON.stringify(command));
+    stateHTML.innerHTML = "&nbsp;Last Sent: ABORT (Abort Sequence)";
+    console.log("sent force abort");
+}
+
+function forcePause() {
+    var command = { command: "SET_STATE", newState: "ALL_PRESS" };
+    socket.send(JSON.stringify(command));
+    stateHTML.innerHTML = "&nbsp;Last Sent: PAUSE FLOW (ALL_PRESS)";
+    console.log("sent force pause flow");
+
 }
 
 

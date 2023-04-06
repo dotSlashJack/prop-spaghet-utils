@@ -2,11 +2,11 @@
   {
     "valves": [
       {
-        "name": "O_Press",
+        "name": "O_Vent",
         "type": "oxidizer"
       },
       {
-        "name": "O_Purge",
+        "name": "O_Press",
         "type": "oxidizer"
       },
       {
@@ -14,15 +14,15 @@
         "type": "oxidizer"
       },
       {
-        "name": "O_Vent",
+        "name": "O_Purge",
         "type": "oxidizer"
       },
       {
-        "name": "F_Press",
+        "name": "F_Vent",
         "type": "fuel"
       },
       {
-        "name": "F_Purge",
+        "name": "F_Press",
         "type": "fuel"
       },
       {
@@ -30,7 +30,7 @@
         "type": "fuel"
       },
       {
-        "name": "F_Vent",
+        "name": "F_Purge",
         "type": "fuel"
       }
     ]
