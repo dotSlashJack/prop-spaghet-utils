@@ -13,7 +13,9 @@ const stateSetJSON = "../resources/STATE_SETS.json";
 const valveNameJSON = "../resources/VALVE_NAMES.json";
 const sequenceNameJSON = "../resources/SEQUENCE_NAMES.json"
 
-const minSafePneumaticPressure = 80.0;
+const minSafePneumaticPressure = 80.0; //psi that we acquire "safe" for operation
+
+const throttleInterval = 250; //ms between value/graph updates
 
 
 //---------//
@@ -64,9 +66,9 @@ fetch(valveNameJSON)
             let namedSelect = document.createElement('div');
             namedSelect.className = "select-with-dropdown";
             if(valve.type === "oxidizer"){
-                namedSelect.style = "color: lightblue;"
+                namedSelect.style = "color: lightblue; font-size: larger;";
             } else if(valve.type === "fuel"){
-                namedSelect.style = "color: rgb(231, 76, 97);"
+                namedSelect.style = "color: rgb(252, 127, 32); font-size: larger;";
             }
             namedSelect.append(valve.name);
             namedSelect.append(select);
@@ -88,7 +90,7 @@ fetch(sequenceNameJSON)
     })
     .then(function (data) {
         sequenceNames = data[0].sequences;
-        console.log(sequenceNames);
+        //console.log(sequenceNames);
 
         // Populate sequence dropdown with options
         var sequenceTypeDropdown = document.getElementById("sequenceDropdown");
@@ -258,7 +260,6 @@ sequencerCheckbox.addEventListener("change", function () {
 const sensorContainer = document.getElementById('sensorContainer');
 const errorDiv = document.getElementById('error');
 let lastUpdateTime = 0;
-const throttleInterval = 500;
 
 function createSensorDiv(sensorName, sensorValue, unit) {
     const sensorDiv = document.createElement('div');
@@ -301,7 +302,13 @@ function updateValveStates(data){
     for(v of valveNames) {
         console.log(v);
         let valveReading = data.data.valves[v].valveState;
-        document.getElementById(v).value = valveReading;
+        let valveDocText = document.getElementById(v);
+        valveDocText.value = valveReading;
+        if(valveReading==="OPEN"){
+            valveDocText.style.color = "lightgreen";
+        } else if(valveReading==="CLOSED"){
+            valveDocText.style.color = "rgb(231, 76, 97)";
+        }
     }
 }
 
@@ -470,7 +477,8 @@ const chart2Layout = {
     },
     yaxis: {
         title: {
-            text: 'Temperature Value',
+            //text: 'Temperature Value',
+            text: 'Sensor Reading (PSI)',
             font: {
                 color: 'white'
             }
@@ -480,7 +488,8 @@ const chart2Layout = {
         }
     },
     title: {
-        text: 'Temperature Sensors',
+        //text: 'Temperature Sensors',
+        text: 'Pressure Sensors',
         font: {
             color: 'white'
         }

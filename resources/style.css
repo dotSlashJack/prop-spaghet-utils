@@ -136,6 +136,14 @@ p {
     padding: 15px;
 }
 
+/*.grid-container-overrides.ox{
+    background-color: rgb(173,216,230,0.7);
+}
+
+.grid-container-overrides.fuel{
+    background-color: rgb(252, 127, 32, 0.7);
+}*/
+
 .dropdown {
     width: 100%;
     background-color: #181F2D;
