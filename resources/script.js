@@ -412,7 +412,7 @@ function forceAbort() {
 }
 
 function forcePause() {
-    var command = { command: "SET_STATE", newState: "ALL_PRESS" };
+    var command = { command: "START_SEQUENCE", sequence: "PAUSE" };
     socket.send(JSON.stringify(command));
     stateHTML.innerHTML = "&nbsp;Last Sent: PAUSE FLOW (ALL_PRESS)";
     console.log("sent force pause flow");
