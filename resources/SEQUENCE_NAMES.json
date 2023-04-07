@@ -1,58 +1,56 @@
 {
-    "WATER_FLOW": [
-     "SELECT SEQUENCE",
-     "F_FLOW_05s",
-     "F_FLOW_10s",
-     "F_FLOW_20s",
-     "F_FLOW_30s",
-     "O_FLOW_05s",
-     "O_FLOW_10s",
-     "O_FLOW_20s",
-     "O_FLOW_30s",
-     "KER_VENT_FLUTTER_x2"
-    ],
-    "COLD_FLOW": [
-      "SELECT SEQUENCE",
-      "F_FLUTTER_x2",
-      "O_FLUTTER_x2",
-      "F_FLOW_05s",
-      "F_FLOW_10s",
-      "O_FLOW_05s",
-      "O_FLOW_10s"
-     ],
-     "HOT_FIRE": [
-      "SELECT SEQUENCE",
-      "F_FLUTTER_x2",
-      "O_FLUTTER_x2",
-      "FIRE_03s",
-      "FIRE_04s",
-      "FIRE_05s",
-      "FIRE_06s",
-      "FIRE_07s",
-      "FIRE_08s",
-      "FIRE_09s",
-      "FIRE_10s"
-     ],
-     "ALL_STATES": [
-      "SELECT SEQUENCE",
-      "F_FLUTTER_x2",
-      "O_FLUTTER_x2",
-      "F_FLOW_05s",
-      "F_FLOW_10s",
-      "F_FLOW_20s",
-      "F_FLOW_30s",
-      "O_FLOW_05s",
-      "O_FLOW_10s",
-      "O_FLOW_20s",
-      "O_FLOW_30s",
-      "KER_VENT_FLUTTER_x2",
-      "FIRE_03s",
-      "FIRE_04s",
-      "FIRE_05s",
-      "FIRE_06s",
-      "FIRE_07s",
-      "FIRE_08s",
-      "FIRE_09s",
-      "FIRE_10s"
-     ]
-  }
+  "WATER_FLOW": [
+    "SELECT SEQUENCE",
+    "F_FLOW_05s",
+    "F_FLOW_10s",
+    "F_FLOW_20s",
+    "F_FLOW_30s",
+    "O_FLOW_05s",
+    "O_FLOW_10s",
+    "O_FLOW_20s",
+    "O_FLOW_30s"
+  ],
+  "COLD_FLOW": [
+    "SELECT SEQUENCE",
+    "F_FLUTTER_x2",
+    "O_FLUTTER_x2",
+    "F_FLOW_05s",
+    "F_FLOW_10s",
+    "O_FLOW_05s",
+    "O_FLOW_10s"
+  ],
+  "HOT_FIRE": [
+    "SELECT SEQUENCE",
+    "F_FLUTTER_x2",
+    "O_FLUTTER_x2",
+    "FIRE_03s",
+    "FIRE_04s",
+    "FIRE_05s",
+    "FIRE_06s",
+    "FIRE_07s",
+    "FIRE_08s",
+    "FIRE_09s",
+    "FIRE_10s"
+  ],
+  "ALL_STATES": [
+    "SELECT SEQUENCE",
+    "F_FLUTTER_x2",
+    "O_FLUTTER_x2",
+    "F_FLOW_05s",
+    "F_FLOW_10s",
+    "F_FLOW_20s",
+    "F_FLOW_30s",
+    "O_FLOW_05s",
+    "O_FLOW_10s",
+    "O_FLOW_20s",
+    "O_FLOW_30s",
+    "FIRE_03s",
+    "FIRE_04s",
+    "FIRE_05s",
+    "FIRE_06s",
+    "FIRE_07s",
+    "FIRE_08s",
+    "FIRE_09s",
+    "FIRE_10s"
+  ]
+}

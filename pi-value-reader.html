@@ -8,7 +8,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> <!--Download and save locally as backup just in case-->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!--Download and save locally as backup just in case-->
     <link rel="stylesheet" type="text/css" href="../resources/style.css">
     <title>Raspberry Pi Sensor Data</title>
     <style>
@@ -20,7 +21,7 @@
 
 <body>
     <!--<div id="sensorContainer"></div>-->
-    <div id="error" class="sensor-value" ></div>
+    <div id="error" class="sensor-value"></div>
     <div class="box" style="margin-right: 5px;">
         <select id="testTypeDropdown" onchange="updateBatches()"></select>
 
@@ -38,20 +39,22 @@
     <br>
     <div class="grid-container-small-x3">
         <div class="grid-item-small">
-        <div class="box">
-            <button class="importantBtn" onclick="sendStateCommand()">SEND COMMAND</button>
-            <br><br>
-            <p id="currentTestStandState">Current State: UNKNOWN</p>
-            <br><br>
-            <p id="pneumaticSysPress">Available Pneumatic Pressure: NA</p>
-            <br><br><br>
-            <button class="importanterBtn" id="sequencerButton" onclick="sendSequenceCommand()" disabled>EXECUTE SEQUENCE</button>
-        </div>
+            <div class="box">
+                <button class="importantBtn" onclick="sendStateCommand()">SEND COMMAND</button>
+                <br><br>
+                <p id="currentTestStandState">Current State: UNKNOWN</p>
+                <br><br>
+                <p id="pneumaticSysPress">Available Pneumatic Pressure: NA</p>
+                <br><br><br>
+                <button class="importanterBtn" id="sequencerButton" onclick="sendSequenceCommand()" disabled>EXECUTE
+                    SEQUENCE</button>
+            </div>
         </div>
         <div class="grid-item-small">
             <div class="box">
                 <div class="wrapped-container">
-                    <button id="onlineSafeBtn" class="cautiousBtn" onclick="forceSetOnlineSafe()" disabled>ONLINE SAFE</button>
+                    <button id="onlineSafeBtn" class="cautiousBtn" onclick="forceSetOnlineSafe()" disabled>ONLINE
+                        SAFE</button>
                     <br><br><br>
                 </div>
                 <div class="wrapped-container">
@@ -66,22 +69,29 @@
         </div>
         <div class="grid-item-small">
             <div class="box">
-                <div class="wrapped-container">
-                    <!--<div id="sensorContainer" style="color: white;"></div>-->
+                <p>Sequence Progress:&nbsp;</p><p id="sequence-progress-text">N/A</p>
+                <br><br>
+                <div id="loading-bar">
+                    <div id="sequence-progress-bar"></div>
                 </div>
+                <br>
+                <p>Currently Running Sequence:&nbsp;</p><p id="sequence-name-text">N/A</p><br><br>
+                <p>Last Recorded Abort:&nbsp;</p><p id="recorded-abort-text">N/A</p>
             </div>
         </div>
-        
     </div>
+
     <br>
     <div class="grid-container-small-x2">
         <div class="grid-item-small">
             <div class="box">
                 <div id="override-buttons-ox" class="grid-container-overrides"></div><br>
                 <div id="override-buttons-fuel" class="grid-container-overrides"></div><br>
-                <button id="overrideBtn" class="importantBtn" onclick="sendOverrideCommand()" disabled>SET STATES</button>
+                <button id="overrideBtn" class="importantBtn" onclick="sendOverrideCommand()" disabled>SET
+                    STATES</button>
                 <p id="lastSentOverrideAt">Last Sent override at: NA</p>
-                <p>&nbsp; | &nbsp;Enable Override:</p> <input type="checkbox" id="overrideCheckbox" value="enableOverrideChecked">
+                <p>&nbsp; | &nbsp;Enable Override:</p> <input type="checkbox" id="overrideCheckbox"
+                    value="enableOverrideChecked">
             </div>
         </div>
         <div class="grid-item-small">
@@ -114,18 +124,18 @@
             <div id="chart4"></div>
             <p>Enable/Disable:</p> <input type="checkbox" id="checkbox_4" value="pressureSensors2Checked">
         </div>
-      </div>
+    </div>
 
     <br>
     <!--<button onclick="downloadJSONFile()">Download current JSON</button>-->
-    
+
 
     <br>
 
     <script src=".//resources/script.js"></script>
 
     <script>
-        
+
     </script>
 </body>
 

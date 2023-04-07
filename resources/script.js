@@ -3,10 +3,10 @@
 //these are the main things you need to update here at the top
 
 //where the json is coming from (pi or local testing)
-const socket = new WebSocket('ws://localhost:9002/ws');
+//const socket = new WebSocket('ws://localhost:9002/ws');
 //const socket = new WebSocket('ws://169.254.146.189:9002');
 //const socket = new WebSocket('ws://spaghetti-pi.local:9002/ws');
-//const socket = new WebSocket('ws://ecs-sim-pi.local:9002/ws');
+const socket = new WebSocket('ws://ecs-sim-pi.local:9002/ws');
 
 //where your states/batches are defined
 const stateSetJSON = "../resources/STATE_SETS.json";
@@ -108,7 +108,7 @@ fetch(stateSetJSON)
 
         // Trigger initial update of batches and commands
         updateBatches();
-        updateSequences();
+        //updateSequences();
     });
 
 // functions to define the state sets iteratively from json
@@ -360,6 +360,14 @@ sendSequenceCommand = function () {
 
         stateHTML.innerHTML = "&nbsp;Last Sent: " + sequenceToSet;
         console.log("sent ", sequenceToSet, " sequence command");
+
+        //disable the sequencer button for 1.5 seconds to prevent double clicks
+        var sequencerButton = document.getElementById("sequencerButton");
+        sequencerButton.disabled = true;
+        setTimeout(() => {
+            console.log("re-enabling sequencer button");
+            sequencerButton.disabled = false;
+        }, 1500);
     }
 }
 
@@ -370,15 +378,6 @@ sendOverrideCommand = function () {
     }
     //remove comma at end to create valid json
     activeElementObj = activeElementObj.substring(0, activeElementObj.lastIndexOf(",")) + activeElementObj.substring(activeElementObj.lastIndexOf(",") + 1);
-    /*var obj = '{'
-        + '"vehicleConfig": "HorizontalTestStand",'
-        + '"command": "SET_ACTIVE_ELEMENTS",'
-        + '"testName": "' + batchName + '",'
-        + '"testToken": "iuqh3h1289asdhkk2nadx89hkasdjk",'
-        + '"activeElements": {'
-        + activeElementObj
-        + '}'
-        + '}';*/
     var obj = '{'
         + '"command": "SET_ACTIVE_ELEMENTS",'
         + '"activeElements": {'
@@ -405,13 +404,21 @@ function forceSetOnlineSafe() {
 }
 
 function forceAbort() {
+    var abortCommand = { command: "ABORT_SEQUENCE" }
+    socket.send(JSON.stringify(abortCommand));
+    console.log("sent abort command");
+
     var command = { command: "START_SEQUENCE", sequence: "ABORT" };
     socket.send(JSON.stringify(command));
     stateHTML.innerHTML = "&nbsp;Last Sent: ABORT (Abort Sequence)";
-    console.log("sent force abort");
+    console.log("sent abort sequence");
 }
 
 function forcePause() {
+    var abortCommand = { command: "ABORT_SEQUENCE" }
+    socket.send(JSON.stringify(abortCommand));
+    console.log("sent abort command");
+
     var command = { command: "START_SEQUENCE", sequence: "PAUSE" };
     socket.send(JSON.stringify(command));
     stateHTML.innerHTML = "&nbsp;Last Sent: PAUSE FLOW (ALL_PRESS)";
@@ -784,6 +791,27 @@ function updateChart_4(sensors) {
 
 /// end chart creation ///
 
+
+
+//sequence loading bar status
+function updateSequenceInfo(data) {
+    const progress = data.sequenceProgress * 100;
+    const sequence = data.engineSequence;
+    const abort = data.recordedAbort;
+
+    const loadingBar = document.getElementById("sequence-progress-bar");
+    const progressText = document.getElementById("sequence-progress-text");
+    const sequenceName = document.getElementById("sequence-name-text");
+    const lastAbort = document.getElementById("recorded-abort-text");
+
+    progressText.innerHTML = `${progress.toFixed(2)}%`;
+    sequenceName.innerHTML = sequence;
+    lastAbort.innerHTML = abort;
+
+    loadingBar.style.width = `${progress}%`;
+}
+
+
 var pneumaticSysPress = document.getElementById("pneumaticSysPress");
 function displayPneumaticSystemPressure(pneumaticPressureReading) {
     if (pneumaticPressureReading.sensorReading < minSafePneumaticPressure) {
@@ -805,6 +833,8 @@ function processData(data) {
         return;
     }
     sensorContainer.innerHTML = '';
+
+    updateSequenceInfo(data);
 
     //displaySensors(data.data.loadCellSensors, 'Load Cell Sensor');
     displaySensors(data.data.pressureSensors, 'Pressure Sensor');
