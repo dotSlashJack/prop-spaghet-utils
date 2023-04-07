@@ -837,9 +837,9 @@ function updateSequenceInfo(data) {
 var pneumaticSysPress = document.getElementById("pneumaticSysPress");
 function displayPneumaticSystemPressure(pneumaticPressureReading) {
     if (pneumaticPressureReading.sensorReading < minSafePneumaticPressure) {
-        pneumaticSysPress.innerHTML = "<span class=\"alarm\">LOW PNEUMATIC PRESSURE: " + pneumaticPressureReading.sensorReading + " " + pneumaticPressureReading.unit + "</span>";
+        pneumaticSysPress.innerHTML = "<span class=\"alarm\">LOW PNEUMATIC PRESSURE: " + pneumaticPressureReading.sensorReading.toFixed(2) + " " + pneumaticPressureReading.unit + "</span>";
     } else {
-        pneumaticSysPress.innerHTML = "Available Pneumatic Pressure: " + pneumaticPressureReading.sensorReading + " " + pneumaticPressureReading.unit;
+        pneumaticSysPress.innerHTML = "Available Pneumatic Pressure: " + pneumaticPressureReading.sensorReading.toFixed(2) + " " + pneumaticPressureReading.unit;
     }
 }
 
