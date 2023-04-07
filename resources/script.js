@@ -14,7 +14,6 @@ const valveNameJSON = "../resources/VALVE_NAMES.json";
 const sequenceNameJSON = "../resources/SEQUENCE_NAMES.json"
 
 const minSafePneumaticPressure = 80.0; //psi that we acquire "safe" for operation
-
 const throttleInterval = 250; //ms between value/graph updates
 
 
@@ -281,7 +280,7 @@ hotbuttonCheckbox.addEventListener("change", function () {
 
 ///
 
-// Sensor reading box population
+// Sensor Value box population
 
 const sensorContainer = document.getElementById('sensorContainer');
 const errorDiv = document.getElementById('error');
@@ -300,6 +299,29 @@ function displaySensors(sensorGroup, groupName) {
         const sensorDiv = createSensorDiv(`${key}`, sensor.sensorReading, sensor.unit);
         sensorContainer.appendChild(sensorDiv); //TODO
     });
+}
+
+function displayPressureSensorsOrganized(pressureSensorData){
+    //console.log(pressureSensorData.OxTank);
+    var OxTank = document.getElementById('OxTankVal');
+    var FuelTank = document.getElementById('FuelTankVal');
+    var N2Press = document.getElementById('N2PressVal');
+    var Chamber = document.getElementById('ChamberVal');
+    var Venturi_1 = document.getElementById('Venturi_1Val');
+    var Venturi_2 = document.getElementById('Venturi_2Val');
+    var Pneumatic = document.getElementById('PneumaticVal');
+
+    //console.log(pressureSensorData.OxTank.sensorReading);
+
+    OxTank.innerHTML = "Ox_Tank:&nbsp" + pressureSensorData.OxTank.sensorReading.toFixed(3);
+    FuelTank.innerHTML = "Fuel_Tank:&nbsp" + pressureSensorData.FuelTank.sensorReading.toFixed(3);
+    N2Press.innerHTML = "N2_Press:&nbsp;" + pressureSensorData.N2Press.sensorReading.toFixed(3);
+    Chamber.innerHTML = "Chamber:&nbsp;" + pressureSensorData.Chamber.sensorReading.toFixed(3);
+    Venturi_1.innerHTML = "Venturi_1:&nbsp;" + pressureSensorData.Venturi_1.sensorReading.toFixed(3);
+    Venturi_2.innerHTML = "Venturi_2:&nbsp;" + pressureSensorData.Venturi_2.sensorReading.toFixed(3);
+    Pneumatic.innerHTML = "Pneumatic:&nbsp;" + pressureSensorData.Pneumatic.sensorReading.toFixed(3);
+
+    //FuelTank.innerHTML = pressureSensorData.OxTank.sensorReading;
 }
 
 socket.addEventListener('open', (event) => {
@@ -531,7 +553,7 @@ const chart2Layout = {
     yaxis: {
         title: {
             //text: 'Temperature Value',
-            text: 'Sensor Reading (PSI)',
+            text: 'Sensor Value (PSI)',
             font: {
                 color: 'white'
             }
@@ -570,7 +592,7 @@ const chart3Layout = {
     yaxis: {
         title: {
             //text: 'Load Cell Value', //TODO: update this and later vals if you want to add load cells back  in
-            text: 'Sensor Reading (PSI)',
+            text: 'Sensor Value (PSI)',
             font: {
                 color: 'white'
             }
@@ -832,12 +854,13 @@ function processData(data) {
     if (currentTime - lastUpdateTime < throttleInterval) {
         return;
     }
-    sensorContainer.innerHTML = '';
+    //sensorContainer.innerHTML = ''; //TODO: update this if you go back to automatically populating the sensor data
 
     updateSequenceInfo(data);
 
     //displaySensors(data.data.loadCellSensors, 'Load Cell Sensor');
-    displaySensors(data.data.pressureSensors, 'Pressure Sensor');
+    //displaySensors(data.data.pressureSensors, 'Pressure Sensor'); //use this default one almost always, especially if names of things change (otherwise you need to update the format function)
+    displayPressureSensorsOrganized(data.data.pressureSensors)
     //displaySensors(data.data.tempSensors, 'Temperature Sensor');
 
     displayPneumaticSystemPressure(data.data.pressureSensors.Pneumatic);

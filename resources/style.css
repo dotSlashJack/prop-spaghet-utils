@@ -28,6 +28,10 @@
     background-color: inherit;
 }
 
+.sensor-value {
+    margin-bottom: 1rem;
+}
+
 .alarm {
     color: red;
 }
@@ -121,6 +125,11 @@ p {
     grid-template-columns: repeat(2, 1fr);
 }
 
+.grid-container-1row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
 .grid-container-small-x3 {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -203,8 +212,19 @@ p {
     outline: 3px solid white;
 }
 
+/* data css classes are for displaying sensor reading vals */
 
-/*#pneumaticSysPress{
-    background-color: lightcoral;
-    width: max-content;
-}*/
+.FuelData{
+    color: rgb(252, 127, 32);
+    font-size: 20px;
+}
+
+.OxData{
+    color: lightblue;
+    font-size: 20px;
+}
+
+.MiscData{
+    color: white;
+    font-size: 20px;
+}

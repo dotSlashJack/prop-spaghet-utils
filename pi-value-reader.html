@@ -11,12 +11,7 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <!--Download and save locally as backup just in case-->
     <link rel="stylesheet" type="text/css" href="../resources/style.css">
-    <title>Raspberry Pi Sensor Data</title>
-    <style>
-        .sensor-value {
-            margin-bottom: 1rem;
-        }
-    </style>
+    <title>Propulsion Test Stand Control</title>
 </head>
 
 <body>
@@ -69,14 +64,17 @@
         </div>
         <div class="grid-item-small">
             <div class="box">
-                <p>Sequence Progress:&nbsp;</p><p id="sequence-progress-text">N/A</p>
+                <p>Sequence Progress:&nbsp;</p>
+                <p id="sequence-progress-text">N/A</p>
                 <br><br>
                 <div id="loading-bar">
                     <div id="sequence-progress-bar"></div>
                 </div>
                 <br>
-                <p>Currently Running Sequence:&nbsp;</p><p id="sequence-name-text">N/A</p><br><br>
-                <p>Last Recorded Abort:&nbsp;</p><p id="recorded-abort-text">N/A</p>
+                <p>Currently Running Sequence:&nbsp;</p>
+                <p id="sequence-name-text">N/A</p><br><br>
+                <p>Last Recorded Abort:&nbsp;</p>
+                <p id="recorded-abort-text">N/A</p>
             </div>
         </div>
     </div>
@@ -96,8 +94,21 @@
         </div>
         <div class="grid-item-small">
             <div class="box">
-                <div class="wrapped-container">
+                <!--<div class="wrapped-container">
                     <div id="sensorContainer" style="color: white;"></div>
+                </div>-->
+                <div class="grid-container-1row">
+                    <div class="grid-item">
+                        <div id="OxTankVal" class="OxData">Ox_Tank</div><br>
+                        <div id="N2PressVal" class="MiscData">N2Press</div><br>
+                        <div id="Venturi_1Val" class="MiscData">Venturi_1</div><br>
+                        <div id="PneumaticVal" class="MiscData">Pneumatic</div>
+                    </div>
+                    <div class="grid-item">
+                        <div id="FuelTankVal" class="FuelData">Fuel_Tank</div><br>
+                        <div id="ChamberVal" class="MiscData">Chamber</div><br>
+                        <div id="Venturi_2Val" class="MiscData">Venturi_2</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -128,15 +139,9 @@
 
     <br>
     <!--<button onclick="downloadJSONFile()">Download current JSON</button>-->
-
-
     <br>
 
     <script src=".//resources/script.js"></script>
-
-    <script>
-
-    </script>
 </body>
 
 </html>
