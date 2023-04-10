@@ -83,6 +83,7 @@ class LoggerApp:
         self.start_button.config(state='normal')
         self.stop_button.config(state='disabled')
         self.new_file_button.config(state='disabled')
+        self.header_written = False
         if self.csv_file:
             self.csv_file.close()
 
