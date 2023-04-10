@@ -14,7 +14,7 @@ const valveNameJSON = "../resources/VALVE_NAMES.json";
 const sequenceNameJSON = "../resources/SEQUENCE_NAMES.json"
 
 const minSafePneumaticPressure = 80.0; //psi that we acquire "safe" for operation
-const throttleInterval = 250; //ms between value/graph updates
+const throttleInterval = 200; //ms between value/graph updates
 
 
 //---------//
