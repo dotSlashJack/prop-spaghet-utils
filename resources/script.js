@@ -6,7 +6,9 @@
 //const socket = new WebSocket('ws://localhost:9002/ws');
 //const socket = new WebSocket('ws://169.254.146.189:9002');
 //const socket = new WebSocket('ws://spaghetti-pi.local:9002/ws');
-const socket = new WebSocket('ws://ecs-sim-pi.local:9002/ws');
+//const socket = new WebSocket('ws://raspberrypi.local:9002/ws');
+const socket = new WebSocket('ws://169.254.90.98:9002');
+
 
 //where your states/batches are defined
 const stateSetJSON = "../resources/STATE_SETS.json";
@@ -22,7 +24,7 @@ const throttleInterval = 200; //ms between value/graph updates
 alert("Don't forget to turn on the logger!");
 
 let stateData = null;
-const defaultBatch = "COLD_FLOW";
+const defaultBatch = "HOT_FIRE";
 
 
 //----- HANDLE OVERRIDE BUTTON JSON --//
@@ -301,7 +303,7 @@ function displaySensors(sensorGroup, groupName) {
     });
 }
 
-function displayPressureSensorsOrganized(pressureSensorData){
+/*function displayPressureSensorsOrganized(pressureSensorData){
     //console.log(pressureSensorData.OxTank);
     var OxTank = document.getElementById('OxTankVal');
     var FuelTank = document.getElementById('FuelTankVal');
@@ -322,7 +324,7 @@ function displayPressureSensorsOrganized(pressureSensorData){
     Pneumatic.innerHTML = "Pneumatic:&nbsp;" + pressureSensorData.Pneumatic.sensorReading.toFixed(3);
 
     //FuelTank.innerHTML = pressureSensorData.OxTank.sensorReading;
-}
+}*/
 
 socket.addEventListener('open', (event) => {
     console.log('WebSocket connection opened:', event);
@@ -333,6 +335,7 @@ let currJSONData = "";
 socket.addEventListener('message', (event) => {
     try {
         const data = JSON.parse(event.data);
+        //console.log(data);
         processData(data);
         updateValveStates(data);
         currJSONData = data;
@@ -858,12 +861,13 @@ function processData(data) {
 
     updateSequenceInfo(data);
 
-    //displaySensors(data.data.loadCellSensors, 'Load Cell Sensor');
-    //displaySensors(data.data.pressureSensors, 'Pressure Sensor'); //use this default one almost always, especially if names of things change (otherwise you need to update the format function)
-    displayPressureSensorsOrganized(data.data.pressureSensors)
-    //displaySensors(data.data.tempSensors, 'Temperature Sensor');
+    sensorContainer.innerHTML = ""; //clear the sensor container before populating it again
+    displaySensors(data.data.loadCellSensors, 'Load Cell Sensor');
+    displaySensors(data.data.pressureSensors, 'Pressure Sensor'); //use this default one almost always, especially if names of things change (otherwise you need to update the format function)
+    //displayPressureSensorsOrganized(data.data.pressureSensors)
+    displaySensors(data.data.tempSensors, 'Temperature Sensor');
 
-    displayPneumaticSystemPressure(data.data.pressureSensors.Pneumatic);
+    displayPneumaticSystemPressure(data.data.pressureSensors.pneumaticDucer);
     displayTestStandState(data.currentState);
 
     if (chartData_1.length === 0) {

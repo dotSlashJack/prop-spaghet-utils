@@ -2,35 +2,35 @@
   {
     "valves": [
       {
-        "name": "O_Vent",
+        "name": "loxVent",
         "type": "oxidizer"
       },
       {
-        "name": "O_Press",
+        "name": "loxPressurant",
         "type": "oxidizer"
       },
       {
-        "name": "O_Flow",
+        "name": "loxFlow",
         "type": "oxidizer"
       },
       {
-        "name": "O_Purge",
+        "name": "loxPurge",
         "type": "oxidizer"
       },
       {
-        "name": "F_Vent",
+        "name": "kerVent",
         "type": "fuel"
       },
       {
-        "name": "F_Press",
+        "name": "kerPressurant",
         "type": "fuel"
       },
       {
-        "name": "F_Flow",
+        "name": "kerFlow",
         "type": "fuel"
       },
       {
-        "name": "F_Purge",
+        "name": "kerPurge",
         "type": "fuel"
       }
     ]
