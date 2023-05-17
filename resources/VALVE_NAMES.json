@@ -32,6 +32,10 @@
       {
         "name": "kerPurge",
         "type": "fuel"
+      },
+      {
+        "name": "kerProp",
+        "type": "fuel_proportional"
       }
     ]
   }

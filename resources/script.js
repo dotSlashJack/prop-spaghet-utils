@@ -3,11 +3,9 @@
 //these are the main things you need to update here at the top
 
 //where the json is coming from (pi or local testing)
-//const socket = new WebSocket('ws://localhost:9002/ws');
-//const socket = new WebSocket('ws://169.254.146.189:9002');
-//const socket = new WebSocket('ws://spaghetti-pi.local:9002/ws');
+const socket = new WebSocket('ws://localhost:9002/ws');
 //const socket = new WebSocket('ws://raspberrypi.local:9002/ws');
-const socket = new WebSocket('ws://169.254.90.98:9002');
+//const socket = new WebSocket('ws://169.254.90.98:9002');
 
 
 //where your states/batches are defined
@@ -44,39 +42,55 @@ fetch(valveNameJSON)
         // Populate testType dropdown with options
         valves.forEach(valve => {
             valveNames.push(valve.name);
-            const select = document.createElement('select');
-            if (valve.type === "oxidizer") {
-                select.className = 'dropdown-ox';
-            } else if (valve.type === "fuel") {
-                select.className = 'dropdown-fuel';
+            //handle numeric entry fields (for fuel proportional this is time in seconds over which to open the valve)
+            if (valve.type === "fuel_proportional") {
+                const textOption = document.createElement('input');
+                textOption.className = 'entry-fuel';
+                textOption.id = valve.name;
+                textOption.value = '1.0';
+
+                let namedEntry = document.createElement('div');
+                namedEntry.className = "select-with-dropdown";
+                namedEntry.style = "color: rgb(252, 127, 32); font-size: large;";
+                namedEntry.append(valve.name);
+                namedEntry.append(textOption);
+                overrideGridFuel.appendChild(namedEntry);
             }
+            //handle non-user-entry dropdowns
+            else {
+                const select = document.createElement('select');
+                if (valve.type === "oxidizer") {
+                    select.className = 'dropdown-ox';
+                } else if (valve.type === "fuel") {
+                    select.className = 'dropdown-fuel';
+                }
+                const option1 = document.createElement('option');
+                const option2 = document.createElement('option');
 
-            const option1 = document.createElement('option');
-            const option2 = document.createElement('option');
+                option1.value = 'OPEN';
+                option1.textContent = 'OPEN';
+                option2.value = 'CLOSED';
+                option2.textContent = 'CLOSED';
+                select.appendChild(option1);
+                select.appendChild(option2);
 
-            option1.value = 'OPEN';
-            option1.textContent = 'OPEN';
-            option2.value = 'CLOSED';
-            option2.textContent = 'CLOSED';
+                select.id = valve.name;
 
-            select.appendChild(option1);
-            select.appendChild(option2);
-            select.id = valve.name;
-
-            let namedSelect = document.createElement('div');
-            namedSelect.className = "select-with-dropdown";
-            if (valve.type === "oxidizer") {
-                namedSelect.style = "color: lightblue; font-size: large;";
-            } else if (valve.type === "fuel") {
-                namedSelect.style = "color: rgb(252, 127, 32); font-size: large;";
-            }
-            namedSelect.append(valve.name);
-            namedSelect.append(select);
-            //namedSelect.innerHTML = "<p>"+name+"</p><br>"+select.ele;
-            if (valve.type === "oxidizer") {
-                overrideGridOx.appendChild(namedSelect);
-            } else if (valve.type === "fuel") {
-                overrideGridFuel.appendChild(namedSelect);
+                let namedSelect = document.createElement('div');
+                namedSelect.className = "select-with-dropdown";
+                if (valve.type === "oxidizer") {
+                    namedSelect.style = "color: lightblue; font-size: large;";
+                } else if (valve.type === "fuel" || valve.type === "fuel_proportional") {
+                    namedSelect.style = "color: rgb(252, 127, 32); font-size: large;";
+                }
+                namedSelect.append(valve.name);
+                namedSelect.append(select);
+                //namedSelect.innerHTML = "<p>"+name+"</p><br>"+select.ele;
+                if (valve.type === "oxidizer") {
+                    overrideGridOx.appendChild(namedSelect);
+                } else if (valve.type === "fuel") {
+                    overrideGridFuel.appendChild(namedSelect);
+                }
             }
         });
     });

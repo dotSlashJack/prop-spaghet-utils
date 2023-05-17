@@ -179,6 +179,7 @@ p {
     height: 30px;
     background-color: #181F2D;
     margin-top: 5px;
+    border:rgb(99,99,99) 1.5px solid;
     color: lightblue;
 }
 
@@ -187,6 +188,16 @@ p {
     height: 30px;
     background-color: #181F2D;
     margin-top: 5px;
+    border:rgb(99,99,99) 1.5px solid;
+    color: rgb(231, 76, 97);
+}
+
+.entry-fuel {
+    width: 100%;
+    height: 26.5px;
+    background-color: #181F2D;
+    margin-top: 5px;
+    border:rgb(99,99,99) 1.5px solid;
     color: rgb(231, 76, 97);
 }
 
