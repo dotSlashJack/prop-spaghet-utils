@@ -3,40 +3,40 @@
     "name": "WATER_FLOW",
     "batches": [
       {
-        "name": "F_FILL",
+        "name": "KER_FILL",
         "commands": [
           {
-            "name": "F_FILL",
-            "value": "F_FILL"
+            "name": "KER_FILL",
+            "value": "KER_FILL"
           },
           {
-            "name": "F_POST_FILL",
-            "value": "F_POST_FILL"
+            "name": "KER_POST_FILL",
+            "value": "KER_POST_FILL"
           }
         ]
       },
       {
-        "name": "F_PRESSFLOW",
+        "name": "KER_PRESSFLOW",
         "commands": [
           {
             "name": "ONLINE_SAFE",
             "value": "ONLINE_SAFE"
           },
           {
-            "name": "F_PRE_PRESS",
-            "value": "F_PRE_PRESS"
+            "name": "KER_PRE_PRESS",
+            "value": "KER_PRE_PRESS"
           },
           {
-            "name": "F_PRESS",
-            "value": "F_PRESS"
+            "name": "KER_PRESS",
+            "value": "KER_PRESS"
           },
           {
-            "name": "F_FLOW",
-            "value": "F_FLOW"
+            "name": "KER_FLOW",
+            "value": "KER_FLOW"
           },
           {
-            "name": "F_POST_FLOW",
-            "value": "F_POST_FLOW"
+            "name": "KER_POST_FLOW",
+            "value": "KER_POST_FLOW"
           }
         ]
       },
@@ -77,24 +77,24 @@
             "value": "O_ENGINE_PURGE"
           },
           {
-            "name": "F_ENGINE_PURGE",
-            "value": "F_ENGINE_PURGE"
+            "name": "KER_ENGINE_PURGE",
+            "value": "KER_ENGINE_PURGE"
           },
           {
             "name": "ALL_ENGINE_PURGE",
             "value": "ALL_ENGINE_PURGE"
           },
           {
-            "name": "F_TANK_PURGE",
-            "value": "F_TANK_PURGE"
+            "name": "KER_TANK_PURGE",
+            "value": "KER_TANK_PURGE"
           },
           {
             "name": "O_VENT",
             "value": "O_VENT"
           },
           {
-            "name": "F_VENT",
-            "value": "F_VENT"
+            "name": "KER_VENT",
+            "value": "KER_VENT"
           },
           {
             "name": "ALL_VENT",
@@ -128,27 +128,27 @@
         ]
       },
       {
-        "name": "F_PRESSFLOW",
+        "name": "KER_PRESSFLOW",
         "commands": [
           {
             "name": "ONLINE_SAFE",
             "value": "ONLINE_SAFE"
           },
           {
-            "name": "F_PRE_PRESS",
-            "value": "F_PRE_PRESS"
+            "name": "KER_PRE_PRESS",
+            "value": "KER_PRE_PRESS"
           },
           {
-            "name": "F_PRESS",
-            "value": "F_PRESS"
+            "name": "KER_PRESS",
+            "value": "KER_PRESS"
           },
           {
-            "name": "F_FLOW",
-            "value": "F_FLOW"
+            "name": "KER_FLOW",
+            "value": "KER_FLOW"
           },
           {
-            "name": "F_POST_FLOW",
-            "value": "F_POST_FLOW"
+            "name": "KER_POST_FLOW",
+            "value": "KER_POST_FLOW"
           }
         ]
       },
@@ -165,7 +165,7 @@
           },
           {
             "name": "O_PRESS",
-            "value": "F_PRO_PRESSESS"
+            "value": "KER_PRO_PRESSESS"
           },
           {
             "name": "O_FLOW",
@@ -183,40 +183,40 @@
     "name": "COLD_FLOW",
     "batches": [
       {
-        "name": "F_FILL",
+        "name": "KER_FILL",
         "commands": [
           {
-            "name": "F_FILL",
-            "value": "F_FILL"
+            "name": "KER_FILL",
+            "value": "KER_FILL"
           },
           {
-            "name": "F_POST_FILL",
-            "value": "F_POST_FILL"
+            "name": "KER_POST_FILL",
+            "value": "KER_POST_FILL"
           }
         ]
       },
       {
-        "name": "F_PRESSFLOW",
+        "name": "KER_PRESSFLOW",
         "commands": [
           {
             "name": "ONLINE_SAFE",
             "value": "ONLINE_SAFE"
           },
           {
-            "name": "F_PRE_PRESS",
-            "value": "F_PRE_PRESS"
+            "name": "KER_PRE_PRESS",
+            "value": "KER_PRE_PRESS"
           },
           {
-            "name": "F_PRESS",
-            "value": "F_PRESS"
+            "name": "KER_PRESS",
+            "value": "KER_PRESS"
           },
           {
-            "name": "F_FLOW",
-            "value": "F_FLOW"
+            "name": "KER_FLOW",
+            "value": "KER_FLOW"
           },
           {
-            "name": "F_POST_FLOW",
-            "value": "F_POST_FLOW"
+            "name": "KER_POST_FLOW",
+            "value": "KER_POST_FLOW"
           }
         ]
       },
@@ -257,24 +257,24 @@
             "value": "O_ENGINE_PURGE"
           },
           {
-            "name": "F_ENGINE_PURGE",
-            "value": "F_ENGINE_PURGE"
+            "name": "KER_ENGINE_PURGE",
+            "value": "KER_ENGINE_PURGE"
           },
           {
             "name": "ALL_ENGINE_PURGE",
             "value": "ALL_ENGINE_PURGE"
           },
           {
-            "name": "F_TANK_PURGE",
-            "value": "F_TANK_PURGE"
+            "name": "KER_TANK_PURGE",
+            "value": "KER_TANK_PURGE"
           },
           {
             "name": "O_VENT",
             "value": "O_VENT"
           },
           {
-            "name": "F_VENT",
-            "value": "F_VENT"
+            "name": "KER_VENT",
+            "value": "KER_VENT"
           },
           {
             "name": "ALL_VENT",
@@ -317,15 +317,15 @@
     "name": "HOT_FIRE",
     "batches": [
       {
-        "name": "F_FILL",
+        "name": "KER_FILL",
         "commands": [
           {
-            "name": "F_FILL",
-            "value": "F_FILL"
+            "name": "KER_FILL",
+            "value": "KER_FILL"
           },
           {
-            "name": "F_POST_FILL",
-            "value": "F_POST_FILL"
+            "name": "KER_POST_FILL",
+            "value": "KER_POST_FILL"
           }
         ]
       },
@@ -345,8 +345,8 @@
             "value": "ALL_PRESS"
           },
           {
-            "name": "F_FLUTTER",
-            "value": "F_FLUTTER"
+            "name": "KER_FLUTTER",
+            "value": "KER_FLUTTER"
           },
           {
             "name": "O_FLUTTER",
@@ -387,24 +387,24 @@
             "value": "O_ENGINE_PURGE"
           },
           {
-            "name": "F_ENGINE_PURGE",
-            "value": "F_ENGINE_PURGE"
+            "name": "KER_ENGINE_PURGE",
+            "value": "KER_ENGINE_PURGE"
           },
           {
             "name": "ALL_ENGINE_PURGE",
             "value": "ALL_ENGINE_PURGE"
           },
           {
-            "name": "F_TANK_PURGE",
-            "value": "F_TANK_PURGE"
+            "name": "KER_TANK_PURGE",
+            "value": "KER_TANK_PURGE"
           },
           {
             "name": "O_VENT",
             "value": "O_VENT"
           },
           {
-            "name": "F_VENT",
-            "value": "F_VENT"
+            "name": "KER_VENT",
+            "value": "KER_VENT"
           },
           {
             "name": "ALL_VENT",
@@ -449,44 +449,48 @@
             "value": "ALL_VENT"
           },
           {
-            "name": "F_ENGINE_PURGE",
-            "value": "F_ENGINE_PURGE"
+            "name": "KER_ENGINE_PURGE",
+            "value": "KER_ENGINE_PURGE"
           },
           {
-            "name": "F_FILL",
-            "value": "F_FILL"
+            "name": "KER_FILL",
+            "value": "KER_FILL"
           },
           {
-            "name": "F_FLOW",
-            "value": "F_FLOW"
+            "name": "KER_FLOW",
+            "value": "KER_FLOW"
           },
           {
-            "name": "F_FLUTTER",
-            "value": "F_FLUTTER"
+            "name": "KER_PROP_FLOW",
+            "value": "KER_PROP_FLOW"
           },
           {
-            "name": "F_POST_FILL",
-            "value": "F_POST_FILL"
+            "name": "KER_FLUTTER",
+            "value": "KER_FLUTTER"
           },
           {
-            "name": "F_POST_FLOW",
-            "value": "F_POST_FLOW"
+            "name": "KER_POST_FILL",
+            "value": "KER_POST_FILL"
           },
           {
-            "name": "F_PRE_PRESS",
-            "value": "F_PRE_PRESS"
+            "name": "KER_POST_FLOW",
+            "value": "KER_POST_FLOW"
           },
           {
-            "name": "F_PRESS",
-            "value": "F_PRESS"
+            "name": "KER_PRE_PRESS",
+            "value": "KER_PRE_PRESS"
           },
           {
-            "name": "F_TANK_PURGE",
-            "value": "F_TANK_PURGE"
+            "name": "KER_PRESS",
+            "value": "KER_PRESS"
           },
           {
-            "name": "F_VENT",
-            "value": "F_VENT"
+            "name": "KER_TANK_PURGE",
+            "value": "KER_TANK_PURGE"
+          },
+          {
+            "name": "KER_VENT",
+            "value": "KER_VENT"
           },
           {
             "name": "O_ENGINE_PURGE",

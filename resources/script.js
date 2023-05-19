@@ -3,9 +3,10 @@
 //these are the main things you need to update here at the top
 
 //where the json is coming from (pi or local testing)
-const socket = new WebSocket('ws://localhost:9002/ws');
+//const socket = new WebSocket('ws://localhost:9002/ws');
 //const socket = new WebSocket('ws://raspberrypi.local:9002/ws');
-//const socket = new WebSocket('ws://169.254.90.98:9002');
+const socket = new WebSocket('ws://169.254.90.98:9002');
+//const socket = new WebSocket('ws://spaghetti-pi.local:9002/ws');
 
 
 //where your states/batches are defined
@@ -365,6 +366,11 @@ function updateValveStates(data) {
         return;
     }
     for (v of valveNames) {
+        //console.log(v);
+        if(v === "kerFlowPneumatic"){
+            continue;
+        }
+        //console.log(v);
         let valveReading = data.data.valves[v].valveState;
         let valveDocText = document.getElementById(v);
         valveDocText.value = valveReading;
@@ -413,7 +419,18 @@ sendSequenceCommand = function () {
 sendOverrideCommand = function () {
     var activeElementObj = "";
     for (v of valveNames) {
-        activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + '\"' + document.getElementById(v).value + '\",';
+        let valve_value = document.getElementById(v).value;
+        //TODO: remove this and make kero valve its own thing again
+        if (v === "kerFlow" || v === "kerFlowTime") {
+            if(v === "kerFlow"){
+                valve_value = parseInt(valve_value);
+            }
+            //valve_value = 5; //placeholder to set openness until its hard coded into ECS
+            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + valve_value + ',';
+        } else{
+            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + '\"' + valve_value + '\",';
+        }  
+        //activeElementObj = activeElementObj + '\"\"' + v + '_override' + '\"' + ': ' + '\"' + document.getElementById(v + "_override").value + '\",';
     }
     //remove comma at end to create valid json
     activeElementObj = activeElementObj.substring(0, activeElementObj.lastIndexOf(",")) + activeElementObj.substring(activeElementObj.lastIndexOf(",") + 1);

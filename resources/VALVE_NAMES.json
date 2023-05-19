@@ -26,15 +26,19 @@
         "type": "fuel"
       },
       {
-        "name": "kerFlow",
+        "name": "kerFlowPneumatic",
         "type": "fuel"
+      },
+      {
+        "name": "kerFlow",
+        "type": "fuel_proportional"
       },
       {
         "name": "kerPurge",
         "type": "fuel"
       },
       {
-        "name": "kerProp",
+        "name": "kerFlowTime",
         "type": "fuel_proportional"
       }
     ]
