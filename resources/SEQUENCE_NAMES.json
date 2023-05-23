@@ -20,6 +20,7 @@
     "O_FLOW_10s"
   ],
   "HOT_FIRE": [
+    "PROP_1s_TESTING_SEQ",
     "SELECT SEQUENCE",
     "F_FLUTTER_x2",
     "O_FLUTTER_x2",
