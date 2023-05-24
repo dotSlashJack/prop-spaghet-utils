@@ -5,8 +5,8 @@
 //where the json is coming from (pi or local testing)
 //const socket = new WebSocket('ws://localhost:9002/ws');
 //const socket = new WebSocket('ws://raspberrypi.local:9002/ws');
-//const socket = new WebSocket('ws://169.254.90.98:9002');
-const socket = new WebSocket('ws://spaghetti-pi.local:9002/ws');
+const socket = new WebSocket('ws://169.254.90.98:9002');
+//const socket = new WebSocket('ws://spaghetti-pi.local:9002/ws');
 
 
 //where your states/batches are defined
