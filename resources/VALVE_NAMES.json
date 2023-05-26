@@ -34,12 +34,12 @@
         "type": "fuel_proportional"
       },
       {
-        "name": "kerPurge",
-        "type": "fuel"
-      },
-      {
         "name": "kerFlowTime",
         "type": "fuel_proportional"
+      },
+      {
+        "name": "kerPurge",
+        "type": "fuel"
       }
     ]
   }

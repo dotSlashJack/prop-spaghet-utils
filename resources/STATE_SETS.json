@@ -3,7 +3,7 @@
     "name": "WATER_FLOW",
     "batches": [
       {
-        "name": "KER_FILL",
+        "name": "KERO_FILL",
         "commands": [
           {
             "name": "KER_FILL",
@@ -16,52 +16,73 @@
         ]
       },
       {
-        "name": "KER_PRESSFLOW",
+        "name": "LOX_FILL",
+        "commands": [
+          {
+            "name": "LOX_FILL",
+            "value": "LOX_FILL"
+          },
+          {
+            "name": "LOX_POST_FILL",
+            "value": "LOX_POST_FILL"
+          }
+        ]
+      },
+      {
+        "name": "LOX_PRESSFLOW",
         "commands": [
           {
             "name": "ONLINE_SAFE",
             "value": "ONLINE_SAFE"
           },
           {
-            "name": "KER_PRE_PRESS",
-            "value": "KER_PRE_PRESS"
+            "name": "LOX_READY_TO_PRESSURIZE",
+            "value": "LOX_READY_TO_PRESSURIZE"
           },
           {
-            "name": "KER_PRESS",
-            "value": "KER_PRESS"
+            "name": "LOX_PRESSURIZING",
+            "value": "LOX_PRESSURIZING"
+          },
+          {
+            "name": "LOX_FLOW",
+            "value": "LOX_FLOW"
+          },
+          {
+            "name": "LOX_READY_TO_PRESSURIZE",
+            "value": "LOX_READY_TO_PRESSURIZE"
+          },
+          {
+            "name": "ONLINE_SAFE",
+            "value": "ONLINE_SAFE"
+          }
+        ]
+      },
+      {
+        "name": "KERO_PRESSFLOW",
+        "commands": [
+          {
+            "name": "ONLINE_SAFE",
+            "value": "ONLINE_SAFE"
+          },
+          {
+            "name": "KER_READY_TO_PRESSURIZE",
+            "value": "KER_READY_TO_PRESSURIZE"
+          },
+          {
+            "name": "KER_PRESSURIZING",
+            "value": "KER_PRESSURIZING"
           },
           {
             "name": "KER_FLOW",
             "value": "KER_FLOW"
           },
           {
-            "name": "KER_POST_FLOW",
-            "value": "KER_POST_FLOW"
-          }
-        ]
-      },
-      {
-        "name": "O_PRESSFLOW",
-        "commands": [
+            "name": "KER_READY_TO_PRESSURIZE",
+            "value": "KER_READY_TO_PRESSURIZE"
+          },
           {
             "name": "ONLINE_SAFE",
             "value": "ONLINE_SAFE"
-          },
-          {
-            "name": "O_PRE_PRESS",
-            "value": "O_PRE_PRESS"
-          },
-          {
-            "name": "O_PRESS",
-            "value": "O_PRESS"
-          },
-          {
-            "name": "O_FLOW",
-            "value": "O_FLOW"
-          },
-          {
-            "name": "O_POST_FLOW",
-            "value": "O_POST_FLOW"
           }
         ]
       },
@@ -73,8 +94,8 @@
             "value": "ONLINE_SAFE"
           },
           {
-            "name": "O_ENGINE_PURGE",
-            "value": "O_ENGINE_PURGE"
+            "name": "LOX_ENGINE_PURGE",
+            "value": "LOX_ENGINE_PURGE"
           },
           {
             "name": "KER_ENGINE_PURGE",
@@ -85,20 +106,16 @@
             "value": "ALL_ENGINE_PURGE"
           },
           {
+            "name": "LOX_TANK_PURGE",
+            "value": "LOX_TANK_PURGE"
+          },
+          {
             "name": "KER_TANK_PURGE",
             "value": "KER_TANK_PURGE"
           },
           {
-            "name": "O_VENT",
-            "value": "O_VENT"
-          },
-          {
-            "name": "KER_VENT",
-            "value": "KER_VENT"
-          },
-          {
-            "name": "ALL_VENT",
-            "value": "ALL_VENT"
+            "name": "ALL_TANK_PURGE",
+            "value": "ALL_TANK_PURGE"
           }
         ]
       },
@@ -110,70 +127,137 @@
             "value": "ONLINE_SAFE"
           },
           {
-            "name": "ALL_PRE_PRESS",
-            "value": "ALL_PRE_PRESS"
+            "name": "ALL_READY_TO_PRESSURIZE",
+            "value": "ALL_READY_TO_PRESSURIZE"
           },
           {
-            "name": "ALL_PRESS",
-            "value": "ALL_PRESS"
+            "name": "ALL_PRESSURIZING",
+            "value": "ALL_PRESSURIZING"
           },
           {
             "name": "ALL_FLOW",
             "value": "ALL_FLOW"
           },
           {
-            "name": "ALL_POST_FLOW",
-            "value": "ALL_POST_FLOW"
+            "name": "ALL_READY_TO_PRESSURIZE",
+            "value": "ALL_READY_TO_PRESSURIZE"
+          },
+          {
+            "name": "ONLINE_SAFE",
+            "value": "ONLINE_SAFE"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "LN2",
+    "batches": [
+      {
+        "name": "LN2_FILL",
+        "commands": [
+          {
+            "name": "LOX_ALL_OPEN",
+            "value": "LOX_ALL_OPEN"
+          },
+          {
+            "name": "LOX_FILL_VENTx2",
+            "value": "LOX_FILL_VENTx2"
+          },
+          {
+            "name": "LOX_FILL_VENTx1",
+            "value": "LOX_FILL_VENTx1"
+          },
+          {
+            "name": "LOX_ALL_CLOSED",
+            "value": "LOX_ALL_CLOSED"
+          },
+          {
+            "name": "LOX_FLOW_PRESSURIZED",
+            "value": "LOX_FLOW_PRESSURIZED"
+          },
+          {
+            "name": "LOX_FLOW_UNPRESSURIZED",
+            "value": "LOX_FLOW_UNPRESSURIZED"
+          },
+          {
+            "name": "LOX_ALL_VENTS",
+            "value": "LOX_ALL_VENTS"
           }
         ]
       },
       {
-        "name": "KER_PRESSFLOW",
+        "name": "LN2_FILL",
         "commands": [
           {
-            "name": "ONLINE_SAFE",
-            "value": "ONLINE_SAFE"
+            "name": "LOX_ALL_OPEN",
+            "value": "LOX_ALL_OPEN"
           },
           {
-            "name": "KER_PRE_PRESS",
-            "value": "KER_PRE_PRESS"
+            "name": "LOX_FILL_VENTx2",
+            "value": "LOX_FILL_VENTx2"
           },
           {
-            "name": "KER_PRESS",
-            "value": "KER_PRESS"
+            "name": "LOX_FILL_VENTx1",
+            "value": "LOX_FILL_VENTx1"
           },
           {
-            "name": "KER_FLOW",
-            "value": "KER_FLOW"
+            "name": "LOX_ALL_CLOSED",
+            "value": "LOX_ALL_CLOSED"
           },
           {
-            "name": "KER_POST_FLOW",
-            "value": "KER_POST_FLOW"
+            "name": "LOX_FLOW_PRESSURIZED",
+            "value": "LOX_FLOW_PRESSURIZED"
+          },
+          {
+            "name": "LOX_ALL_OPEN",
+            "value": "LOX_ALL_OPEN"
           }
         ]
       },
       {
-        "name": "O_PRESSFLOW",
+        "name": "LN2_FILL",
         "commands": [
           {
-            "name": "ONLINE_SAFE",
-            "value": "ONLINE_SAFE"
+            "name": "LOX_FILL_VENTx2",
+            "value": "LOX_FILL_VENTx2"
           },
           {
-            "name": "O_PRE_PRESS",
-            "value": "O_PRE_PRESS"
+            "name": "LOX_FILL_VENTx1",
+            "value": "LOX_FILL_VENTx1"
           },
           {
-            "name": "O_PRESS",
-            "value": "KER_PRO_PRESSESS"
+            "name": "LOX_ALL_CLOSED",
+            "value": "LOX_ALL_CLOSED"
           },
           {
-            "name": "O_FLOW",
-            "value": "O_FLOW"
+            "name": "LOX_FLOW_PRESSURIZED",
+            "value": "LOX_FLOW_PRESSURIZED"
           },
           {
-            "name": "O_POST_FLOW",
-            "value": "O_POST_FLOW"
+            "name": "LOX_ALL_OPEN",
+            "value": "LOX_ALL_OPEN"
+          }
+        ]
+      },
+      {
+        "name": "LN2_FILL",
+        "commands": [
+          {
+            "name": "LOX_ALL_VENTS",
+            "value": "LOX_ALL_VENTS"
+          },
+          {
+            "name": "LOX_ALL_OPEN",
+            "value": "LOX_ALL_OPEN"
+          },
+          {
+            "name": "LOX_FLOW_PRESSURIZED",
+            "value": "LOX_FLOW_PRESSURIZED"
+          },
+          {
+            "name": "LOX_FLOW_UNPRESSURIZED",
+            "value": "LOX_FLOW_UNPRESSURIZED"
           }
         ]
       }
@@ -183,7 +267,7 @@
     "name": "COLD_FLOW",
     "batches": [
       {
-        "name": "KER_FILL",
+        "name": "KERO_FILL",
         "commands": [
           {
             "name": "KER_FILL",
@@ -196,52 +280,77 @@
         ]
       },
       {
-        "name": "KER_PRESSFLOW",
+        "name": "LOX_FILL",
+        "commands": [
+          {
+            "name": "LOX_FILL",
+            "value": "LOX_FILL"
+          },
+          {
+            "name": "LOX_POST_FILL",
+            "value": "LOX_POST_FILL"
+          }
+        ]
+      },
+      {
+        "name": "LOX_PRESSFLOW",
         "commands": [
           {
             "name": "ONLINE_SAFE",
             "value": "ONLINE_SAFE"
           },
           {
-            "name": "KER_PRE_PRESS",
-            "value": "KER_PRE_PRESS"
+            "name": "LOX_READY_TO_PRESSURIZE",
+            "value": "LOX_READY_TO_PRESSURIZE"
           },
           {
-            "name": "KER_PRESS",
-            "value": "KER_PRESS"
+            "name": "LOX_PRESSURIZING",
+            "value": "LOX_PRESSURIZING"
+          },
+          {
+            "name": "LOX_FLOW",
+            "value": "LOX_FLOW"
+          },
+          {
+            "name": "LOX_PRESSURIZING",
+            "value": "LOX_PRESSURIZING"
+          },
+          {
+            "name": "LOX_READY_TO_PRESSURIZE",
+            "value": "LOX_READY_TO_PRESSURIZE"
+          },
+          {
+            "name": "ONLINE_SAFE",
+            "value": "ONLINE_SAFE"
+          }
+        ]
+      },
+      {
+        "name": "KERO_PRESSFLOW",
+        "commands": [
+          {
+            "name": "ONLINE_SAFE",
+            "value": "ONLINE_SAFE"
+          },
+          {
+            "name": "KER_READY_TO_PRESSURIZE",
+            "value": "KER_READY_TO_PRESSURIZE"
+          },
+          {
+            "name": "KER_PRESSURIZING",
+            "value": "KER_PRESSURIZING"
           },
           {
             "name": "KER_FLOW",
             "value": "KER_FLOW"
           },
           {
-            "name": "KER_POST_FLOW",
-            "value": "KER_POST_FLOW"
-          }
-        ]
-      },
-      {
-        "name": "O_PRESSFLOW",
-        "commands": [
+            "name": "KER_PRESSURIZING",
+            "value": "KER_PRESSURIZING"
+          },
           {
             "name": "ONLINE_SAFE",
             "value": "ONLINE_SAFE"
-          },
-          {
-            "name": "O_PRE_PRESS",
-            "value": "O_PRE_PRESS"
-          },
-          {
-            "name": "O_PRESS",
-            "value": "O_PRESS"
-          },
-          {
-            "name": "O_FLOW",
-            "value": "O_FLOW"
-          },
-          {
-            "name": "O_POST_FLOW",
-            "value": "O_POST_FLOW"
           }
         ]
       },
@@ -253,61 +362,29 @@
             "value": "ONLINE_SAFE"
           },
           {
-            "name": "O_ENGINE_PURGE",
-            "value": "O_ENGINE_PURGE"
+            "name": "LOX_PURGE",
+            "value": "LOX_PURGE"
           },
           {
-            "name": "KER_ENGINE_PURGE",
-            "value": "KER_ENGINE_PURGE"
-          },
-          {
-            "name": "ALL_ENGINE_PURGE",
-            "value": "ALL_ENGINE_PURGE"
-          },
-          {
-            "name": "KER_TANK_PURGE",
-            "value": "KER_TANK_PURGE"
-          },
-          {
-            "name": "O_VENT",
-            "value": "O_VENT"
-          },
-          {
-            "name": "KER_VENT",
-            "value": "KER_VENT"
-          },
-          {
-            "name": "ALL_VENT",
-            "value": "ALL_VENT"
-          },
-          {
-            "name": "SAFING_PURGE",
-            "value": "SAFING_PURGE"
+            "name": "KER_PURGE",
+            "value": "KER_PURGE"
           }
         ]
       },
       {
-        "name": "ALL_PRESSFLOW",
+        "name": "FULL_PURGE",
         "commands": [
           {
             "name": "ONLINE_SAFE",
             "value": "ONLINE_SAFE"
           },
           {
-            "name": "ALL_PRE_PRESS",
-            "value": "ALL_PRE_PRESS"
+            "name": "LOX_FULL_PURGE",
+            "value": "LOX_FULL_PURGE"
           },
           {
-            "name": "ALL_PRESS",
-            "value": "ALL_PRESS"
-          },
-          {
-            "name": "ALL_FLOW",
-            "value": "ALL_FLOW"
-          },
-          {
-            "name": "ALL_POST_FLOW",
-            "value": "ALL_POST_FLOW"
+            "name": "KER_FULL_PURGE",
+            "value": "KER_FULL_PURGE"
           }
         ]
       }
@@ -326,52 +403,105 @@
           {
             "name": "KER_POST_FILL",
             "value": "KER_POST_FILL"
+          },
+          {
+            "name": "ONLINE_SAFE",
+            "value": "ONLINE_SAFE"
           }
         ]
       },
       {
-        "name": "ALL_PRESS",
+        "name": "LOX_FILL",
+        "commands": [
+          {
+            "name": "LOX_FILL",
+            "value": "LOX_FILL"
+          },
+          {
+            "name": "LOX_POST_FILL",
+            "value": "LOX_POST_FILL"
+          },
+          {
+            "name": "ALL_READY_TO_PRESSURIZE",
+            "value": "ALL_READY_TO_PRESSURIZE"
+          },
+          {
+            "name": "ONLINE_SAFE",
+            "value": "ONLINE_SAFE"
+          }
+        ]
+      },
+      {
+        "name": "SET_PRESSURE",
         "commands": [
           {
             "name": "ONLINE_SAFE",
             "value": "ONLINE_SAFE"
           },
           {
-            "name": "ALL_PRE_PRESS",
-            "value": "ALL_PRE_PRESS"
+            "name": "ALL_READY_TO_PRESSURIZE",
+            "value": "ALL_READY_TO_PRESSURIZE"
           },
           {
-            "name": "ALL_PRESS",
-            "value": "ALL_PRESS"
+            "name": "ALL_PRESSURIZING",
+            "value": "ALL_PRESSURIZING"
           },
           {
-            "name": "KER_FLUTTER",
-            "value": "KER_FLUTTER"
+            "name": "ALL_ENGINE_PURGE",
+            "value": "ALL_ENGINE_PURGE"
           },
           {
-            "name": "O_FLUTTER",
-            "value": "O_FLUTTER"
+            "name": "LOX_GRAV_FLOW",
+            "value": "LOX_GRAV_FLOW"
+          },
+          {
+            "name": "LOX_FILL",
+            "value": "LOX_FILL"
+          },
+          {
+            "name": "LOX_PRESSURIZING",
+            "value": "LOX_PRESSURIZING"
+          },
+          {
+            "name": "KER_PRESSURIZING",
+            "value": "KER_PRESSURIZING"
           }
         ]
       },
       {
-        "name": "ALL_FLOW",
+        "name": "ALL_PRESSFLOW",
         "commands": [
           {
             "name": "ONLINE_SAFE",
             "value": "ONLINE_SAFE"
           },
           {
-            "name": "ALL_PRE_PRESS",
-            "value": "ALL_PRE_PRESS"
+            "name": "ALL_READY_TO_PRESSURIZE",
+            "value": "ALL_READY_TO_PRESSURIZE"
           },
           {
-            "name": "ALL_PRESS",
-            "value": "ALL_PRESS"
+            "name": "ALL_PRESSURIZING",
+            "value": "ALL_PRESSURIZING"
+          },
+          {
+            "name": "PRESSURIZED_ALL_ENGINE_PURGE",
+            "value": "PRESSURIZED_ALL_ENGINE_PURGE"
           },
           {
             "name": "ALL_FLOW",
             "value": "ALL_FLOW"
+          },
+          {
+            "name": "KER_ENGINE_PURGE",
+            "value": "KER_ENGINE_PURGE"
+          },
+          {
+            "name": "LOX_ENGINE_PURGE",
+            "value": "LOX_ENGINE_PURGE"
+          },
+          {
+            "name": "ALL_ENGINE_PURGE",
+            "value": "ALL_ENGINE_PURGE"
           }
         ]
       },
@@ -383,8 +513,8 @@
             "value": "ONLINE_SAFE"
           },
           {
-            "name": "O_ENGINE_PURGE",
-            "value": "O_ENGINE_PURGE"
+            "name": "LOX_ENGINE_PURGE",
+            "value": "LOX_ENGINE_PURGE"
           },
           {
             "name": "KER_ENGINE_PURGE",
@@ -393,142 +523,120 @@
           {
             "name": "ALL_ENGINE_PURGE",
             "value": "ALL_ENGINE_PURGE"
+          },
+          {
+            "name": "LOX_TANK_PURGE",
+            "value": "LOX_TANK_PURGE"
           },
           {
             "name": "KER_TANK_PURGE",
             "value": "KER_TANK_PURGE"
           },
           {
-            "name": "O_VENT",
-            "value": "O_VENT"
-          },
-          {
-            "name": "KER_VENT",
-            "value": "KER_VENT"
-          },
-          {
-            "name": "ALL_VENT",
-            "value": "ALL_VENT"
-          },
-          {
-            "name": "SAFING_PURGE",
-            "value": "SAFING_PURGE"
+            "name": "ALL_TANK_PURGE",
+            "value": "ALL_TANK_PURGE"
           }
         ]
-      }
-    ]
-  },
-  {
-    "name": "ALL_STATES",
-    "batches": [
+      },
       {
         "name": "ALL_STATES",
         "commands": [
           {
-            "name": "ALL_ENGINE_PURGE",
-            "value": "ALL_ENGINE_PURGE"
-          },
-          {
-            "name": "ALL_FLOW",
-            "value": "ALL_FLOW"
-          },
-          {
-            "name": "ALL_POST_FLOW",
-            "value": "ALL_POST_FLOW"
-          },
-          {
-            "name": "ALL_PRE_PRESS",
-            "value": "ALL_PRE_PRESS"
-          },
-          {
-            "name": "ALL_PRESS",
-            "value": "ALL_PRESS"
-          },
-          {
-            "name": "ALL_VENT",
-            "value": "ALL_VENT"
-          },
-          {
-            "name": "KER_ENGINE_PURGE",
-            "value": "KER_ENGINE_PURGE"
+            "name": "ONLINE_SAFE",
+            "value": "ONLINE_SAFE"
           },
           {
             "name": "KER_FILL",
             "value": "KER_FILL"
           },
           {
-            "name": "KER_FLOW",
-            "value": "KER_FLOW"
-          },
-          {
-            "name": "KER_PROP_FLOW",
-            "value": "KER_PROP_FLOW"
-          },
-          {
-            "name": "KER_FLUTTER",
-            "value": "KER_FLUTTER"
-          },
-          {
             "name": "KER_POST_FILL",
             "value": "KER_POST_FILL"
           },
           {
-            "name": "KER_POST_FLOW",
-            "value": "KER_POST_FLOW"
+            "name": "LOX_FILL",
+            "value": "LOX_FILL"
           },
           {
-            "name": "KER_PRE_PRESS",
-            "value": "KER_PRE_PRESS"
+            "name": "LOX_POST_FILL",
+            "value": "LOX_POST_FILL"
           },
           {
-            "name": "KER_PRESS",
-            "value": "KER_PRESS"
+            "name": "ALL_READY_TO_PRESSURIZE",
+            "value": "ALL_READY_TO_PRESSURIZE"
+          },
+          {
+            "name": "ALL_PRESSURIZING",
+            "value": "ALL_PRESSURIZING"
+          },
+          {
+            "name": "LOX_PRESSURIZING",
+            "value": "LOX_PRESSURIZING"
+          },
+          {
+            "name": "KER_PRESSURIZING",
+            "value": "KER_PRESSURIZING"
+          },
+          {
+            "name": "ALL_FLOW",
+            "value": "ALL_FLOW"
+          },
+          {
+            "name": "LOX_FLOW",
+            "value": "LOX_FLOW"
+          },
+          {
+            "name": "KER_FLOW",
+            "value": "KER_FLOW"
+          },
+          {
+            "name": "LOX_GRAV_FLOW",
+            "value": "LOX_GRAV_FLOW"
+          },
+          {
+            "name": "LOX_ENGINE_PURGE",
+            "value": "LOX_ENGINE_PURGE"
+          },
+          {
+            "name": "KER_ENGINE_PURGE",
+            "value": "KER_ENGINE_PURGE"
+          },
+          {
+            "name": "ALL_ENGINE_PURGE",
+            "value": "ALL_ENGINE_PURGE"
+          },
+          {
+            "name": "PRESSURIZED_ALL_ENGINE_PURGE",
+            "value": "PRESSURIZED_ALL_ENGINE_PURGE"
+          },
+          {
+            "name": "LOX_TANK_PURGE",
+            "value": "LOX_TANK_PURGE"
           },
           {
             "name": "KER_TANK_PURGE",
             "value": "KER_TANK_PURGE"
           },
           {
-            "name": "KER_VENT",
-            "value": "KER_VENT"
+            "name": "ALL_TANK_PURGE",
+            "value": "ALL_TANK_PURGE"
           },
           {
-            "name": "O_ENGINE_PURGE",
-            "value": "O_ENGINE_PURGE"
+            "name": "LOX_FLUTTER_CLOSED",
+            "value": "LOX_FLUTTER_CLOSED"
           },
           {
-            "name": "O_FLOW",
-            "value": "O_FLOW"
+            "name": "LOX_FLUTTER_OPEN",
+            "value": "LOX_FLUTTER_OPEN"
           },
           {
-            "name": "O_FLUTTER",
-            "value": "O_FLUTTER"
+            "name": "KER_FLUTTER_CLOSED",
+            "value": "KER_FLUTTER_CLOSED"
           },
           {
-            "name": "O_POST_FLOW",
-            "value": "O_POST_FLOW"
-          },
-          {
-            "name": "O_PRE_PRESS",
-            "value": "O_PRE_PRESS"
-          },
-          {
-            "name": "O_PRESS",
-            "value": "O_PRESS"
-          },
-          {
-            "name": "O_VENT",
-            "value": "O_VENT"
-          },
-          {
-            "name": "ONLINE_SAFE",
-            "value": "ONLINE_SAFE"
-          },
-          {
-            "name": "SAFING_PURGE",
-            "value": "SAFING_PURGE"
+            "name": "KER_FLUTTER_OPEN",
+            "value": "KER_FLUTTER_OPEN"
           }
-          
         ]
       }
     ]

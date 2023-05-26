@@ -5,8 +5,8 @@
 //where the json is coming from (pi or local testing)
 //const socket = new WebSocket('ws://localhost:9002/ws');
 //const socket = new WebSocket('ws://raspberrypi.local:9002/ws');
-const socket = new WebSocket('ws://169.254.90.98:9002');
-//const socket = new WebSocket('ws://spaghetti-pi.local:9002/ws');
+//const socket = new WebSocket('ws://169.254.90.98:9002/ws');
+const socket = new WebSocket('ws://spaghetti-pi.local:9002/ws');
 
 
 //where your states/batches are defined
@@ -47,13 +47,18 @@ fetch(valveNameJSON)
             if (valve.type === "fuel_proportional") {
                 const textOption = document.createElement('input');
                 textOption.className = 'entry-fuel';
+                textOption.id = valve.name + " (s)";
                 textOption.id = valve.name;
-                textOption.value = '1.0';
+                textOption.value = '0';
 
                 let namedEntry = document.createElement('div');
                 namedEntry.className = "select-with-dropdown";
                 namedEntry.style = "color: rgb(252, 127, 32); font-size: large;";
-                namedEntry.append(valve.name);
+                if (valve.name === "kerFlowTime") {
+                    namedEntry.append(valve.name + " (s)");
+                } else {
+                    namedEntry.append(valve.name);
+                }
                 namedEntry.append(textOption);
                 overrideGridFuel.appendChild(namedEntry);
             }
@@ -419,17 +424,20 @@ sendSequenceCommand = function () {
 sendOverrideCommand = function () {
     var activeElementObj = "";
     for (v of valveNames) {
+        //console.log(v);
         let valve_value = document.getElementById(v).value;
         //TODO: remove this and make kero valve its own thing again
-        if (v === "kerFlow" || v === "kerFlowTime") {
-            if(v === "kerFlow"){
-                valve_value = parseInt(valve_value);
-            }
-            //valve_value = 5; //placeholder to set openness until its hard coded into ECS
+        if (v === "kerFlow"){
+            valve_value = parseInt(valve_value);
             activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + valve_value + ',';
-        } else{
+        } else if(v === "kerFlowTime"){
+            valve_value = parseInt(valve_value * 1000);
+            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + valve_value + ',';
+        }
+        else {
             activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + '\"' + valve_value + '\",';
-        }  
+        }
+        //activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + '\"' + valve_value + '\",';
         //activeElementObj = activeElementObj + '\"\"' + v + '_override' + '\"' + ': ' + '\"' + document.getElementById(v + "_override").value + '\",';
     }
     //remove comma at end to create valid json
