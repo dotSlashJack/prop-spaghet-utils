@@ -4,9 +4,9 @@
 
 //where the json is coming from (pi or local testing)
 //const socket = new WebSocket('ws://localhost:9002/ws');
-//const socket = new WebSocket('ws://raspberrypi.local:9002/ws');
+const socket = new WebSocket('ws://raspberrypi.local:9002/ws');
 //const socket = new WebSocket('ws://169.254.90.98:9002/ws');
-const socket = new WebSocket('ws://spaghetti-pi.local:9002/ws');
+//const socket = new WebSocket('ws://spaghetti-pi.local:9002/ws');
 
 
 //where your states/batches are defined
@@ -39,6 +39,7 @@ fetch(valveNameJSON)
 
         const overrideGridOx = document.getElementById('override-buttons-ox');
         const overrideGridFuel = document.getElementById('override-buttons-fuel');
+        const overrideGridSuppression = document.getElementById('override-buttons-suppression');
 
         // Populate testType dropdown with options
         valves.forEach(valve => {
@@ -69,6 +70,8 @@ fetch(valveNameJSON)
                     select.className = 'dropdown-ox';
                 } else if (valve.type === "fuel") {
                     select.className = 'dropdown-fuel';
+                } else if (valve.type === "fire_suppress") {
+                    select.className = 'dropdown-suppression';
                 }
                 const option1 = document.createElement('option');
                 const option2 = document.createElement('option');
@@ -88,6 +91,8 @@ fetch(valveNameJSON)
                     namedSelect.style = "color: lightblue; font-size: large;";
                 } else if (valve.type === "fuel" || valve.type === "fuel_proportional") {
                     namedSelect.style = "color: rgb(252, 127, 32); font-size: large;";
+                } else if (valve.type === "fire_suppress") {
+                    namedSelect.style = "color: #DCD933; font-size: large;";
                 }
                 namedSelect.append(valve.name);
                 namedSelect.append(select);
@@ -96,6 +101,8 @@ fetch(valveNameJSON)
                     overrideGridOx.appendChild(namedSelect);
                 } else if (valve.type === "fuel") {
                     overrideGridFuel.appendChild(namedSelect);
+                } else if (valve.type === "fire_suppress") {
+                    overrideGridSuppression.appendChild(namedSelect);
                 }
             }
         });
@@ -293,10 +300,12 @@ hotbuttonCheckbox.addEventListener("change", function () {
         document.getElementById("abortBtn").disabled = false;
         document.getElementById("onlineSafeBtn").disabled = false;
         document.getElementById("pauseBtn").disabled = false;
+        document.getElementById("fireSuppressBtn").disabled = false;
     } else {
         document.getElementById("abortBtn").disabled = true;
         document.getElementById("onlineSafeBtn").disabled = true;
         document.getElementById("pauseBtn").disabled = true;
+        document.getElementById("fireSuppressBtn").disabled = true;
     }
 });
 
@@ -478,14 +487,18 @@ function forceAbort() {
     console.log("sent abort sequence");
 }
 
+function forceFireSuppress() {
+    console.log("sent fire suppress command");
+}
+
 function forcePause() {
     var abortCommand = { command: "ABORT_SEQUENCE" }
     socket.send(JSON.stringify(abortCommand));
-    console.log("sent abort command");
+    console.log("sent abort sequence command");
 
-    var command = { command: "START_SEQUENCE", sequence: "PAUSE" };
-    socket.send(JSON.stringify(command));
-    stateHTML.innerHTML = "&nbsp;Last Sent: PAUSE FLOW (ALL_PRESS)";
+    //var command = { command: "START_SEQUENCE", sequence: "PAUSE" };
+    //socket.send(JSON.stringify(command));
+    //stateHTML.innerHTML = "&nbsp;Last Sent: PAUSE FLOW (ALL_PRESS)";
     console.log("sent force pause flow");
 
 }

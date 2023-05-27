@@ -47,21 +47,23 @@
             </div>
         </div>
         <div class="grid-item-small">
-            <div class="box">
                 <div class="wrapped-container">
                     <button id="onlineSafeBtn" class="cautiousBtn" onclick="forceSetOnlineSafe()" disabled>ONLINE
                         SAFE</button>
                     <br><br><br>
-                </div>
-                <div class="wrapped-container">
-                    <button id="pauseBtn" class="cautiousBtn" onclick="forcePause()" disabled>PAUSE FLOW</button>
-                    <br><br><br><br><br><br>
-                </div>
-                <div class="wrapped-container">
-                    <button id="abortBtn" class="dangerBtn" onclick="forceAbort()" disabled>ABORT</button>
+                
+                    <button id="pauseBtn" class="cautiousBtn" onclick="forcePause()" disabled>ABORT RUNNING SEQUENCE</button>
                     <br><br><br>
+                    <button id="fireSuppressBtn" class="cautiousBtn" onclick="forceFireSuppress()" disabled>SUPPRESS FIRE</button>
+                    
+                    <button id="abortBtn" class="dangerBtn" onclick="forceAbort()" disabled>ABORT</button>
+                    
+                    <button class="placeolderBtn" disabled></button>
+                    <br><br><br>
+                    <button class="placeolderBtn" disabled></button>
+                    <br><br><br>
+                    
                 </div>
-            </div>
         </div>
         <div class="grid-item-small">
             <div class="box">
@@ -86,6 +88,7 @@
             <div class="box">
                 <div id="override-buttons-ox" class="grid-container-overrides"></div><br>
                 <div id="override-buttons-fuel" class="grid-container-overrides"></div><br>
+                <div id="override-buttons-suppression" class="grid-container-overrides"></div>
                 <button id="overrideBtn" class="importantBtn" onclick="sendOverrideCommand()" disabled>SET
                     STATES</button>
                 <p id="lastSentOverrideAt">Last Sent override at: NA</p>

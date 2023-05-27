@@ -40,6 +40,10 @@
       {
         "name": "kerPurge",
         "type": "fuel"
+      },
+      {
+        "name": "co2FlowValve",
+        "type": "fire_suppress"
       }
     ]
   }
