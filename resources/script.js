@@ -17,6 +17,7 @@ const sequenceNameJSON = "../resources/SEQUENCE_NAMES.json"
 const minSafePneumaticPressure = 80.0; //psi that we acquire "safe" for operation
 const throttleInterval = 200; //ms between value/graph updates
 
+const omissions = ["loxInletDucer", "kerInletDucer", "loxTankTC", "n2pressDucer", "purgeDucer"]; //sensors that are not hooked up
 
 //---------//
 
@@ -300,12 +301,12 @@ hotbuttonCheckbox.addEventListener("change", function () {
         document.getElementById("abortBtn").disabled = false;
         document.getElementById("onlineSafeBtn").disabled = false;
         document.getElementById("pauseBtn").disabled = false;
-        document.getElementById("fireSuppressBtn").disabled = false;
+        document.getElementById("noPurgeAbortBtn").disabled = false;
     } else {
         document.getElementById("abortBtn").disabled = true;
         document.getElementById("onlineSafeBtn").disabled = true;
         document.getElementById("pauseBtn").disabled = true;
-        document.getElementById("fireSuppressBtn").disabled = true;
+        document.getElementById("noPurgeAbortBtn").disabled = true;
     }
 });
 
@@ -321,14 +322,31 @@ function createSensorDiv(sensorName, sensorValue, unit) {
     const sensorDiv = document.createElement('div');
     sensorDiv.className = 'sensor-value';
     sensorDiv.textContent = `${sensorName}: ${sensorValue.toFixed(4)} ${unit}`;
+
+    sensorDiv.addEventListener('click', () => {
+        navigator.clipboard.writeText(`${sensorValue} ${unit}`)
+            .then(() => {
+                console.log('Sensor value copied to clipboard!');
+            })
+            .catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+    });
+
     return sensorDiv;
 }
 
+
 function displaySensors(sensorGroup, groupName) {
     Object.entries(sensorGroup).forEach(([key, sensor]) => {
-        //const sensorDiv = createSensorDiv(`${groupName} - ${key}`, sensor.sensorReading, sensor.unit);
-        const sensorDiv = createSensorDiv(`${key}`, sensor.sensorReading, sensor.unit);
-        sensorContainer.appendChild(sensorDiv); //TODO
+        
+        if(omissions.includes(key)){
+            //pass;
+        } else{
+            //const sensorDiv = createSensorDiv(`${groupName} - ${key}`, sensor.sensorReading, sensor.unit);
+            const sensorDiv = createSensorDiv(`${key}`, sensor.sensorReading, sensor.unit);
+            sensorContainer.appendChild(sensorDiv); //TODO
+        }
     });
 }
 
@@ -481,14 +499,25 @@ function forceAbort() {
     socket.send(JSON.stringify(abortCommand));
     console.log("sent abort command");
 
-    var command = { command: "START_SEQUENCE", sequence: "ABORT" };
+    var command = { command: "START_SEQUENCE", sequence: "PURGE_ABORT" };
     socket.send(JSON.stringify(command));
     stateHTML.innerHTML = "&nbsp;Last Sent: ABORT (Abort Sequence)";
     console.log("sent abort sequence");
 }
 
-function forceFireSuppress() {
+/*function forceFireSuppress() {
     console.log("sent fire suppress command");
+}*/
+
+function forceNoPurgeAbort(){
+    var abortCommand = { command: "ABORT_SEQUENCE" }
+    socket.send(JSON.stringify(abortCommand));
+    console.log("sent abort command");
+
+    var command = { command: "START_SEQUENCE", sequence: "NO_PURGE_ABORT" };
+    socket.send(JSON.stringify(command));
+    stateHTML.innerHTML = "&nbsp;Last Sent: ABORT (Abort Sequence)";
+    console.log("sent abort sequence");
 }
 
 function forcePause() {
@@ -496,11 +525,24 @@ function forcePause() {
     socket.send(JSON.stringify(abortCommand));
     console.log("sent abort sequence command");
 
-    //var command = { command: "START_SEQUENCE", sequence: "PAUSE" };
-    //socket.send(JSON.stringify(command));
-    //stateHTML.innerHTML = "&nbsp;Last Sent: PAUSE FLOW (ALL_PRESS)";
-    console.log("sent force pause flow");
+}
 
+/*function forceClosePropValveBtn(){
+    var closeCommand = { command: "SET_STATE", newState: "CLOSE_PROP_1900" };
+    socket.send(JSON.stringify(closeCommand));
+    console.log("sent 1900 1s prop valve (closed)");
+}
+
+function forceOpenPropValveBtn(){
+    var openCommand = { command: "SET_STATE", newState: "OPEN_PROP_1100" };
+    socket.send(JSON.stringify(openCommand));
+    console.log("sent 1100 1s prop valve (open)");
+}*/
+
+function forceStopPropBtn(){
+    var stopCommand = { command: "SET_STATE", newState: "STOP_PROP_1500" };
+    socket.send(JSON.stringify(stopCommand));
+    console.log("sent stop prop 1500");
 }
 
 
@@ -607,8 +649,8 @@ const chart2Layout = {
     },
     yaxis: {
         title: {
-            //text: 'Temperature Value',
-            text: 'Sensor Value (PSI)',
+            text: 'Temperature Value',
+            //text: 'Sensor Value (PSI)',
             font: {
                 color: 'white'
             }
@@ -618,8 +660,8 @@ const chart2Layout = {
         }
     },
     title: {
-        //text: 'Temperature Sensors',
-        text: 'Pressure Sensors',
+        text: 'Temperature Sensors',
+        //text: 'Pressure Sensors',
         font: {
             color: 'white'
         }
@@ -646,8 +688,8 @@ const chart3Layout = {
     },
     yaxis: {
         title: {
-            //text: 'Load Cell Value', //TODO: update this and later vals if you want to add load cells back  in
-            text: 'Sensor Value (PSI)',
+            text: 'Load Cell Value', //TODO: update this and later vals if you want to add load cells back  in
+            //text: 'Sensor Value (PSI)',
             font: {
                 color: 'white'
             }
@@ -657,8 +699,8 @@ const chart3Layout = {
         }
     },
     title: {
-        //text: 'Load Cell Sensors',
-        text: 'Pressure Sensors',
+        text: 'Load Cell Sensors',
+        //text: 'Pressure Sensors',
         font: {
             color: 'white'
         }
@@ -714,6 +756,9 @@ const chart4Layout = {
 ////// CHARTS //////
 function initChart_1(sensors) {
     Object.keys(sensors).forEach((key) => {
+        /*if(omissions.includes(key)){
+            return;
+        }*/
         const sensor = sensors[key];
         chartData_1.push({
             x: [sensor.timeStamp],//new Date().getTime()
@@ -729,9 +774,14 @@ function updateChart_1(sensors) {
     let latestTimeStamp = -Infinity;
 
     Object.keys(sensors).forEach((key, index) => {
+        /*if(omissions.includes(key)){
+            return;
+        }*/
+        
         const sensor = sensors[key];
         chartData_1[index].x.push(sensor.timeStamp);
         chartData_1[index].y.push(sensor.sensorReading);
+    
 
         // Remove old data points if the number of data points exceeds visibleDataPoints
         if (chartData_1[index].x.length > visibleDataPoints) {
@@ -931,38 +981,38 @@ function processData(data) {
     }
 
     // TODO: put this part back if you want to use load cells again, but they're on a separate arduino for now
-    /*if (chartData_2.length === 0) {
+    if (chartData_2.length === 0) {
         initChart_2(data.data.tempSensors);
     } else {
         if (tempCheckboxValue === "tempSensorsChecked") {
             updateChart_2(data.data.tempSensors);
         }
-    }*/
-    if (chartData_2.length === 0) {
+    }
+    /*if (chartData_2.length === 0) {
         initChart_2(data.data.pressureSensors);
     } else {
         if (tempCheckboxValue === "tempSensorsChecked") {
             updateChart_2(data.data.pressureSensors);
         }
-    }
+    }*/
     /// end todo1 ///
 
     // TODO: put this part back if you want to use load cells again, but they're on a separate arduino for now
     //note that the checkbox names were not changed to reflect pressure sensors instead of load cell sensors
-    /*if (chartData_3.length === 0) {
+    if (chartData_3.length === 0) {
         initChart_3(data.data.loadCellSensors);
     } else {
         if (loadCheckboxValue === "loadSensorsChecked") {
             updateChart_3(data.data.loadCellSensors);
         }
-    }*/
-    if (chartData_3.length === 0) {
+    }
+   /*if (chartData_3.length === 0) {
         initChart_3(data.data.pressureSensors);
     } else {
         if (loadCheckboxValue === "loadSensorsChecked") {
             updateChart_3(data.data.pressureSensors);
         }
-    }
+    }*/
     /// end todo2 ///
 
     if (chartData_4.length === 0) {

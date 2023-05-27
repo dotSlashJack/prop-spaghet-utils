@@ -52,15 +52,19 @@
                         SAFE</button>
                     <br><br><br>
                 
-                    <button id="pauseBtn" class="cautiousBtn" onclick="forcePause()" disabled>ABORT RUNNING SEQUENCE</button>
+                    <button id="pauseBtn" class="cautiousBtn" onclick="forcePause()" disabled>STOP RUNNING SEQUENCE</button>
                     <br><br><br>
-                    <button id="fireSuppressBtn" class="cautiousBtn" onclick="forceFireSuppress()" disabled>SUPPRESS FIRE</button>
+                    <button class="placeolderBtn" disabled></button>
                     
+                    <!--<button id="abortBtn" class="dangerBtn" onclick="forceAbort()" disabled>ABORT</button>-->
+
                     <button id="abortBtn" class="dangerBtn" onclick="forceAbort()" disabled>ABORT</button>
-                    
-                    <button class="placeolderBtn" disabled></button>
                     <br><br><br>
-                    <button class="placeolderBtn" disabled></button>
+                    <button id="noPurgeAbortBtn" class="dangerBtn" onclick="forceNoPurgeAbort()" disabled>NO PURGE ABORT</button>
+                    <!--<button id="closePropValveBtn" class="cautiousBtn" onclick="forceClosePropValveBtn()">CLOSE PROP @1900</button>
+                    <br><br><br>
+                    <button id="openPropValveBtn" class="cautiousBtn" onclick="forceOpenPropValveBtn()">OPEN PROP @1100</button>-->
+                    <!--<button class="placeolderBtn" disabled></button>-->
                     <br><br><br>
                     
                 </div>
