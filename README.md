@@ -5,13 +5,22 @@ mini propulsion test stand util code
 
 1) cd into the directory where you clone/downloaded this code
 
-2) run `python(3) -m http.server`
+e.g., `cd /Users/jack/Github/prop-spaghet-utiils`
+
+2) once inside, run `python(3) -m http.server`
 
 (use python or python3 as appropriate for your configuration)
 
-3) go to `http://localhost:8000/pi-value-reader.html` in a browser, ideally in a new window/incognito tab
+3) go to `http://localhost:8000/pi-value-reader.html` in a browser, ideally in a new window/incognito tab (if you do not, you run the risk of your browser showing a cached version of the page which can cause issues)
 
 4) ensure you are connected to the pi, if you are not or the ecs is not running, you will see an error message about websockets.
+
+NB: if you want to test with a different pi, open `script.js` inside resources, and change which device you are connecting to by editing/commenting out the lines at the top. For example, if you want to connect to `raspberrypi.local` make sure the line 
+
+`const socket = new WebSocket('ws://raspberrypi.local:9002/ws');`
+
+is active (no `//` before it), and all other socket lines are commented out (have the `//` in front of them)
+
 
 ## Running the logger
 

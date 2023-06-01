@@ -416,7 +416,6 @@ function updateValveStates(data) {
             } else if(parseInt(valveReading) > 1500){
                 valveDocText.style.color = "rgb(231, 76, 97)";
             } else if(parseInt(valveReading) == 1500 || parseInt(valveReading) == 0){
-                console.log("yeah");
                 valveDocText.style.color = "#DCD933";
             }
         } 
@@ -536,6 +535,76 @@ function forceNoPurgeAbort(){
     socket.send(JSON.stringify(command));
     stateHTML.innerHTML = "&nbsp;Last Sent: ABORT (Abort Sequence)";
     console.log("sent abort sequence");
+}
+
+function forceResetPropValveValue(){
+    var abortCommand = { command: "ABORT_SEQUENCE" }
+    socket.send(JSON.stringify(abortCommand));
+    console.log("sent inside reset prop valve abort command");
+
+    //set prop valve to stop regardless of other valves
+    var activeElementObj = "";
+    for (v of valveNames) {
+        //console.log(v);
+        let valve_value = document.getElementById(v).value;
+        //TODO: remove this and make kero valve its own thing again
+        if (v === "kerFlow"){
+            valve_value = 1500;
+            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + valve_value + ',';
+        } else if(v === "kerFlowTime"){
+            valve_value = -1*1000;
+            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + valve_value + ',';
+        }
+        else {
+            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + '\"' + valve_value + '\",';
+        }
+        //activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + '\"' + valve_value + '\",';
+        //activeElementObj = activeElementObj + '\"\"' + v + '_override' + '\"' + ': ' + '\"' + document.getElementById(v + "_override").value + '\",';
+    }
+    //remove comma at end to create valid json
+    activeElementObj = activeElementObj.substring(0, activeElementObj.lastIndexOf(",")) + activeElementObj.substring(activeElementObj.lastIndexOf(",") + 1);
+    var obj = '{'
+        + '"command": "SET_ACTIVE_ELEMENTS",'
+        + '"activeElements": {'
+        + activeElementObj
+        + '}'
+        + '}';
+    socket.send(obj);
+    console.log(obj);
+    console.log("sent STOP command to prop valve");
+
+    //now set to 0 as "reset" //TODO: Make this more efficient
+    var activeElementObj = "";
+    for (v of valveNames) {
+        //console.log(v);
+        let valve_value = document.getElementById(v).value;
+        //TODO: remove this and make kero valve its own thing again
+        if (v === "kerFlow"){
+            valve_value = 0;
+            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + valve_value + ',';
+        } else if(v === "kerFlowTime"){
+            valve_value = -1*1000;
+            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + valve_value + ',';
+        }
+        else {
+            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + '\"' + valve_value + '\",';
+        }
+        //activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + '\"' + valve_value + '\",';
+        //activeElementObj = activeElementObj + '\"\"' + v + '_override' + '\"' + ': ' + '\"' + document.getElementById(v + "_override").value + '\",';
+    }
+    //remove comma at end to create valid json
+    activeElementObj = activeElementObj.substring(0, activeElementObj.lastIndexOf(",")) + activeElementObj.substring(activeElementObj.lastIndexOf(",") + 1);
+    var obj = '{'
+        + '"command": "SET_ACTIVE_ELEMENTS",'
+        + '"activeElements": {'
+        + activeElementObj
+        + '}'
+        + '}';
+    socket.send(obj);
+    console.log(obj);
+    console.log("sent reset to zero command to prop valve");
+
+
 }
 
 function forcePause() {
