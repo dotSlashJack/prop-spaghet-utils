@@ -17,7 +17,8 @@ const sequenceNameJSON = "../resources/SEQUENCE_NAMES.json"
 const minSafePneumaticPressure = 80.0; //psi that we acquire "safe" for operation
 const throttleInterval = 200; //ms between value/graph updates
 
-const omissions = ["loxInletDucer", "kerInletDucer", "loxTankTC", "n2pressDucer", "purgeDucer"]; //sensors that are not hooked up
+//sensors that are not hooked up or broken, change as needed
+const omissions = ["loxInletDucer", "kerInletDucer", "loxTankTC", "n2pressDucer", "purgeDucer"];
 
 //---------//
 

@@ -4,10 +4,11 @@ import pandas as pd
 import numpy as np
 
 # Load the original CSV file
-df = pd.read_csv('/Users/jack/Desktop/hotfire may 28/logger_05-28-2023_14-37-40.csv')
+df = pd.read_csv('/Users/jack/Downloads/logs may 28/logger_05-28-2023_15-44-54.csv')
 
 # Criteria to filter (select) rows by
-criteria = (df['engineSequence'] == 'PROP_OPEN_1s') | (df['currentState'].isin(['CLOSE_PROP_1800','OPEN_PROP_1200']))
+#criteria = (df['engineSequence'] == 'PROP_OPEN_1s') | (df['currentState'].isin(['CLOSE_PROP_1800','OPEN_PROP_1200']))
+criteria = (df['engineSequence'].isin(['PROP_OPEN_1s','FIRE_TEST'])) | (df['currentState'].isin(['CLOSE_PROP_1800','OPEN_PROP_1200']))
 indices = df[criteria].index
 
 # Also get the 10 rows before and after for each index
@@ -29,4 +30,4 @@ for idx in indices_to_keep:
     prev_idx = idx
 
 #df_filtered.to_csv('filtered_csvs/ker_waterflow.csv', index=False)
-df_with_blanks.to_csv('filtered_csvs/ker_waterflow.csv', index=False)
+df_with_blanks.to_csv('/Users/jack/Downloads/logs may 28/filtered_csvs/ker_waterflow.csv', index=False)
