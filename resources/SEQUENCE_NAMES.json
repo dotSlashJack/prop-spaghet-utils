@@ -24,7 +24,10 @@
     "FIRE_15s",
     "PURGE_ABORT",
     "NO_PURGE_ABORT",
-    "ONLINE_SAFE_ABORT"
+    "ONLINE_SAFE_ABORT",
+    "PROP_OPEN_1s",
+    "PROP_CLOSE_1s",
+    "FIRE_TEST"
   ],
   "ALL_STATES": [
     "SELECT SEQUENCE",
@@ -37,6 +40,9 @@
     "PURGE_ABORT",
     "NO_PURGE_ABORT",
     "ONLINE_SAFE_ABORT",
-    "PROP_OPEN_CLOSE_TEST"
+    "PROP_OPEN_CLOSE_TEST",
+    "PROP_OPEN_1s",
+    "PROP_CLOSE_1s",
+    "FIRE_TEST"
   ]
 }

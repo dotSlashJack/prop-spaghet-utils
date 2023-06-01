@@ -399,13 +399,30 @@ function updateValveStates(data) {
     }
     for (v of valveNames) {
         //console.log(v);
-        if(v === "kerFlowPneumatic"){
+        /*if(v === "kerFlowPneumatic"){
             continue;
-        }
+        }*/
         //console.log(v);
         let valveReading = data.data.valves[v].valveState;
         let valveDocText = document.getElementById(v);
         valveDocText.value = valveReading;
+        if(v === "kerFlow"){
+            //console.log(parseInt(valveReading));
+            if(parseInt(valveReading) == 0){
+                valveDocText.style.color = "white";
+            } else if(parseInt(valveReading) < 1500 && parseInt(valveReading)){
+                valveDocText.style.color = "lightgreen";
+            } else if(parseInt(valveReading) > 1500){
+                valveDocText.style.color = "rgb(231, 76, 97)";
+            } else if(parseInt(valveReading) == 1500 || parseInt(valveReading) == 0){
+                console.log("yeah");
+                valveDocText.style.color = "#DCD933";
+            }
+        } 
+
+        if(v === "kerFlowTime"){
+            valveDocText.style.color = "white";
+        }
         if (valveReading === "OPEN") {
             valveDocText.style.color = "lightgreen";
         } else if (valveReading === "CLOSED") {

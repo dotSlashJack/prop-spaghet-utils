@@ -4,3 +4,6 @@ plotly-latest.min.js
 resources/plotly-latest.min.js
 *.csv
 .csv
+filtered_csvs
+filtered_csvs/
+filtered_csvs/*
