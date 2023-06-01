@@ -5,7 +5,7 @@ mini propulsion test stand util code
 
 1) cd into the directory where you clone/downloaded this code
 
-e.g., `cd /Users/jack/Github/prop-spaghet-utiils`
+e.g., `cd /Users/jack/Github/prop-spaghet-utils`. DOUBLE CHECK YOUR PATH IF YOU HAVE DOWNLOADED THIS MULTIPLE TIMES/IN MULTIPLE LOCATIONS
 
 2) once inside, run `python(3) -m http.server`
 
