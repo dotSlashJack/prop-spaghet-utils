@@ -386,6 +386,7 @@ socket.addEventListener('message', (event) => {
         //console.log(data);
         processData(data);
         updateValveStates(data);
+        updateKerFlowStatus(data);
         currJSONData = data;
         errorDiv.textContent = '';
     } catch (error) {
@@ -429,6 +430,12 @@ function updateValveStates(data) {
             valveDocText.style.color = "rgb(231, 76, 97)";
         }
     }
+}
+
+function updateKerFlowStatus(data){
+    let lastcmd = data.lastKerFlowCommand;
+    let lastcmdText = document.getElementById("updateKerFlowStatus");
+    lastcmdText.innerHTML = "Last Ker Flow Report: " + lastcmd;
 }
 
 var stateHTML = document.getElementById("lastStateCommandSent");
@@ -1042,14 +1049,17 @@ function displayTestStandState(currentState) {
 
 // Modify processData function to initialize and update the chart
 function processData(data) {
+    //sensorContainer.innerHTML = ''; //TODO: update this if you go back to automatically populating the sensor data
+
+    updateSequenceInfo(data);
+    displayTestStandState(data.currentState);
+    updateKerFlowStatus(data);
+
+    //things after this will be rate limited
     const currentTime = new Date().getTime();
     if (currentTime - lastUpdateTime < throttleInterval) {
         return;
     }
-    //sensorContainer.innerHTML = ''; //TODO: update this if you go back to automatically populating the sensor data
-
-    updateSequenceInfo(data);
-
     sensorContainer.innerHTML = ""; //clear the sensor container before populating it again
     displaySensors(data.data.loadCellSensors, 'Load Cell Sensor');
     displaySensors(data.data.pressureSensors, 'Pressure Sensor'); //use this default one almost always, especially if names of things change (otherwise you need to update the format function)
@@ -1057,7 +1067,7 @@ function processData(data) {
     displaySensors(data.data.tempSensors, 'Temperature Sensor');
 
     displayPneumaticSystemPressure(data.data.pressureSensors.pneumaticDucer);
-    displayTestStandState(data.currentState);
+    
 
     if (chartData_1.length === 0) {
         initChart_1(data.data.pressureSensors);
