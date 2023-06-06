@@ -529,6 +529,12 @@ function forceAbort() {
     console.log("sent abort sequence");
 }
 
+function checkPropValveArudinoConnection(){
+    var command = { command: "CHECK_PROP_VALVE_COMMUNICATION" };
+    socket.send(JSON.stringify(command));
+    console.log("sent check prop valve arduino connection command");
+}
+
 /*function forceFireSuppress() {
     console.log("sent fire suppress command");
 }*/
