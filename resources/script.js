@@ -57,11 +57,7 @@ fetch(valveNameJSON)
                 let namedEntry = document.createElement('div');
                 namedEntry.className = "select-with-dropdown";
                 namedEntry.style = "color: rgb(252, 127, 32); font-size: large;";
-                if (valve.name === "kerFlowTime") {
-                    namedEntry.append(valve.name + " (s)");
-                } else {
-                    namedEntry.append(valve.name);
-                }
+                namedEntry.append(valve.name);
                 namedEntry.append(textOption);
                 overrideGridFuel.appendChild(namedEntry);
             }
@@ -386,7 +382,6 @@ socket.addEventListener('message', (event) => {
         //console.log(data);
         processData(data);
         updateValveStates(data);
-        updateKerFlowStatus(data);
         currJSONData = data;
         errorDiv.textContent = '';
     } catch (error) {
@@ -408,34 +403,13 @@ function updateValveStates(data) {
         let valveReading = data.data.valves[v].valveState;
         let valveDocText = document.getElementById(v);
         valveDocText.value = valveReading;
-        if(v === "kerFlow"){
-            //console.log(parseInt(valveReading));
-            if(parseInt(valveReading) == 0){
-                valveDocText.style.color = "white";
-            } else if(parseInt(valveReading) < 1500 && parseInt(valveReading)){
-                valveDocText.style.color = "lightgreen";
-            } else if(parseInt(valveReading) > 1500){
-                valveDocText.style.color = "rgb(231, 76, 97)";
-            } else if(parseInt(valveReading) == 1500 || parseInt(valveReading) == 0){
-                valveDocText.style.color = "#DCD933";
-            }
-        } 
 
-        if(v === "kerFlowTime"){
-            valveDocText.style.color = "white";
-        }
         if (valveReading === "OPEN") {
             valveDocText.style.color = "lightgreen";
         } else if (valveReading === "CLOSED") {
             valveDocText.style.color = "rgb(231, 76, 97)";
         }
     }
-}
-
-function updateKerFlowStatus(data){
-    let lastcmd = data.lastKerFlowCommand;
-    let lastcmdText = document.getElementById("updateKerFlowStatus");
-    lastcmdText.innerHTML = "Last Ker Flow Report: " + lastcmd;
 }
 
 var stateHTML = document.getElementById("lastStateCommandSent");
@@ -477,17 +451,7 @@ sendOverrideCommand = function () {
     for (v of valveNames) {
         //console.log(v);
         let valve_value = document.getElementById(v).value;
-        //TODO: remove this and make kero valve its own thing again
-        if (v === "kerFlow"){
-            valve_value = parseInt(valve_value);
-            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + valve_value + ',';
-        } else if(v === "kerFlowTime"){
-            valve_value = parseInt(valve_value * 1000);
-            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + valve_value + ',';
-        }
-        else {
-            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + '\"' + valve_value + '\",';
-        }
+        activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + '\"' + valve_value + '\",';
         //activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + '\"' + valve_value + '\",';
         //activeElementObj = activeElementObj + '\"\"' + v + '_override' + '\"' + ': ' + '\"' + document.getElementById(v + "_override").value + '\",';
     }
@@ -508,7 +472,6 @@ sendOverrideCommand = function () {
     const currentSeconds = currentDate.getSeconds();
     const dateString = currentHour + ":" + (currentMinutes) + ":" + currentSeconds;
     document.getElementById("lastSentOverrideAt").innerHTML = "Last sent override at: " + dateString;
-
 }
 
 function forceSetOnlineSafe() {
@@ -529,16 +492,6 @@ function forceAbort() {
     console.log("sent abort sequence");
 }
 
-function checkPropValveArudinoConnection(){
-    var command = { command: "CHECK_PROP_VALVE_COMMUNICATION" };
-    socket.send(JSON.stringify(command));
-    console.log("sent check prop valve arduino connection command");
-}
-
-/*function forceFireSuppress() {
-    console.log("sent fire suppress command");
-}*/
-
 function forceNoPurgeAbort(){
     var abortCommand = { command: "ABORT_SEQUENCE" }
     socket.send(JSON.stringify(abortCommand));
@@ -550,94 +503,12 @@ function forceNoPurgeAbort(){
     console.log("sent abort sequence");
 }
 
-function forceResetPropValveValue(){
-    var abortCommand = { command: "ABORT_SEQUENCE" }
-    socket.send(JSON.stringify(abortCommand));
-    console.log("sent inside reset prop valve abort command");
-
-    //set prop valve to stop regardless of other valves
-    var activeElementObj = "";
-    for (v of valveNames) {
-        //console.log(v);
-        let valve_value = document.getElementById(v).value;
-        //TODO: remove this and make kero valve its own thing again
-        if (v === "kerFlow"){
-            valve_value = 1500;
-            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + valve_value + ',';
-        } else if(v === "kerFlowTime"){
-            valve_value = -1*1000;
-            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + valve_value + ',';
-        }
-        else {
-            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + '\"' + valve_value + '\",';
-        }
-        //activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + '\"' + valve_value + '\",';
-        //activeElementObj = activeElementObj + '\"\"' + v + '_override' + '\"' + ': ' + '\"' + document.getElementById(v + "_override").value + '\",';
-    }
-    //remove comma at end to create valid json
-    activeElementObj = activeElementObj.substring(0, activeElementObj.lastIndexOf(",")) + activeElementObj.substring(activeElementObj.lastIndexOf(",") + 1);
-    var obj = '{'
-        + '"command": "SET_ACTIVE_ELEMENTS",'
-        + '"activeElements": {'
-        + activeElementObj
-        + '}'
-        + '}';
-    socket.send(obj);
-    console.log(obj);
-    console.log("sent STOP command to prop valve");
-
-    //now set to 0 as "reset" //TODO: Make this more efficient
-    var activeElementObj = "";
-    for (v of valveNames) {
-        //console.log(v);
-        let valve_value = document.getElementById(v).value;
-        //TODO: remove this and make kero valve its own thing again
-        if (v === "kerFlow"){
-            valve_value = 0;
-            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + valve_value + ',';
-        } else if(v === "kerFlowTime"){
-            valve_value = -1*1000;
-            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + valve_value + ',';
-        }
-        else {
-            activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + '\"' + valve_value + '\",';
-        }
-        //activeElementObj = activeElementObj + '\"' + v + '\"' + ': ' + '\"' + valve_value + '\",';
-        //activeElementObj = activeElementObj + '\"\"' + v + '_override' + '\"' + ': ' + '\"' + document.getElementById(v + "_override").value + '\",';
-    }
-    //remove comma at end to create valid json
-    activeElementObj = activeElementObj.substring(0, activeElementObj.lastIndexOf(",")) + activeElementObj.substring(activeElementObj.lastIndexOf(",") + 1);
-    var obj = '{'
-        + '"command": "SET_ACTIVE_ELEMENTS",'
-        + '"activeElements": {'
-        + activeElementObj
-        + '}'
-        + '}';
-    socket.send(obj);
-    console.log(obj);
-    console.log("sent reset to zero command to prop valve");
-
-
-}
-
 function forcePause() {
     var abortCommand = { command: "ABORT_SEQUENCE" }
     socket.send(JSON.stringify(abortCommand));
     console.log("sent abort sequence command");
 
 }
-
-/*function forceClosePropValveBtn(){
-    var closeCommand = { command: "SET_STATE", newState: "CLOSE_PROP_1900" };
-    socket.send(JSON.stringify(closeCommand));
-    console.log("sent 1900 1s prop valve (closed)");
-}
-
-function forceOpenPropValveBtn(){
-    var openCommand = { command: "SET_STATE", newState: "OPEN_PROP_1100" };
-    socket.send(JSON.stringify(openCommand));
-    console.log("sent 1100 1s prop valve (open)");
-}*/
 
 function forceStopPropBtn(){
     var stopCommand = { command: "SET_STATE", newState: "STOP_PROP_1500" };
@@ -1059,7 +930,6 @@ function processData(data) {
 
     updateSequenceInfo(data);
     displayTestStandState(data.currentState);
-    updateKerFlowStatus(data);
 
     //things after this will be rate limited
     const currentTime = new Date().getTime();

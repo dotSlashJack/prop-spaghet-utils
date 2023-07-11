@@ -31,11 +31,7 @@
       },
       {
         "name": "kerFlow",
-        "type": "fuel_proportional"
-      },
-      {
-        "name": "kerFlowTime",
-        "type": "fuel_proportional"
+        "type": "fuel"
       },
       {
         "name": "kerPurge",

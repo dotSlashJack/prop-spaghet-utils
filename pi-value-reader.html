@@ -56,7 +56,6 @@
                     <br><br><br>
                     <!--<button class="placeolderBtn" disabled></button>-->
                     
-                    <button id="abortBtn" class="cautiousBtn" onclick="checkPropValveArudinoConnection()">CHECK PROP ARDUINO</button>
 
                     <button id="abortBtn" class="dangerBtn" onclick="forceAbort()" disabled>ABORT</button>
                     <br><br><br>
@@ -65,9 +64,7 @@
                     <br><br><br>
                     <button id="openPropValveBtn" class="cautiousBtn" onclick="forceOpenPropValveBtn()">OPEN PROP @1100</button>-->
                     <!--<button class="placeolderBtn" disabled></button>-->
-                    <br><br><br>
-                    <button id="resetPropPositionBtn" class="dangerBtn" onclick="forceResetPropValveValue()">RESET PROP VALVE VALUE</button>
-                    
+                    <br><br><br>                    
                 </div>
         </div>
         <div class="grid-item-small">
@@ -94,7 +91,7 @@
                 <div id="override-buttons-ox" class="grid-container-overrides"></div><br>
                 <div id="override-buttons-fuel" class="grid-container-overrides"></div><br>
                 <div id="override-buttons-suppression" class="grid-container-overrides"></div>
-                <div id="updateKerFlowStatus" class="grid-container-data-return" style="color: white;">Last Ker Flow Report: NONE</div>
+                <!--<div id="updateKerFlowStatus" class="grid-container-data-return" style="color: white;">Last Ker Flow Report: NONE</div>-->
                 
                 <button id="overrideBtn" class="importantBtn" onclick="sendOverrideCommand()" disabled>SET STATES</button>
                 <p id="lastSentOverrideAt">Last Sent override at: NA</p>
