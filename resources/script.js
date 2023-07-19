@@ -942,7 +942,7 @@ function processData(data) {
     //displayPressureSensorsOrganized(data.data.pressureSensors)
     displaySensors(data.data.tempSensors, 'Temperature Sensor');
 
-    displayPneumaticSystemPressure(data.data.pressureSensors.pneumaticDucer);
+    //displayPneumaticSystemPressure(data.data.pressureSensors.pneumaticDucer);
     
 
     if (chartData_1.length === 0) {
