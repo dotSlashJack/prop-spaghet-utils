@@ -6,7 +6,7 @@
 //const socket = new WebSocket('ws://localhost:9002/ws');
 //const socket = new WebSocket('ws://169.254.146.189:9002');
 //const socket = new WebSocket('ws://spaghetti-pi.local:9002/ws');
-const socket = new WebSocket('ws://ecs-sim-pi.local:9002/ws');
+const socket = new WebSocket('ws://localhost:9002/ws');
 
 //where your states/batches are defined
 const stateSetJSON = "../resources/STATE_SETS.json";
