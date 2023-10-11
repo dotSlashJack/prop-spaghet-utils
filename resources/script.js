@@ -348,9 +348,9 @@ sendOverrideCommand = function () {
 }
 
 function forceSetOnlineSafe() {
-    var command = { command: "SET_STATE", newState: "ONLINE_SAFE" };
+    var command = { command: "SET_STATE", newState: "ONLINE_SAFE_D" };
     socket.send(JSON.stringify(command));
-    stateHTML.innerHTML = "&nbsp;Last Sent: ONLINE_SAFE";
+    stateHTML.innerHTML = "&nbsp;Last Sent: ONLINE_SAFE_D";
 }
 
 
