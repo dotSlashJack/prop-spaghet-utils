@@ -288,8 +288,6 @@ function updateValveStates(data){
         let valveReading = data.data.valves[v].valveState;
         document.getElementById(v).value = valveReading;
     }
-
-   document.getElementById(v).value = valveReading;
 }
 
 var stateHTML = document.getElementById("lastStateCommandSent");
@@ -748,8 +746,8 @@ function processData(data) {
         displaySensors(data.data.pressureSensors, 'Pressure Sensor');
         displaySensors(data.data.tempSensors, 'Temperature Sensor');
 
-        displayPneumaticSystemPressure(data.data.pressureSensors.Pneumatic);
-        displayTestStandState(data.currentState);
+        // displayPneumaticSystemPressure(data.data.pressureSensors.Pneumatic);
+        // displayTestStandState(data.currentState);
 
         if (chartData_1.length === 0) {
             initChart_1(data.data.pressureSensors);
